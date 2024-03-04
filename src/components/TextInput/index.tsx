@@ -5,7 +5,7 @@ import { Field } from "./Field";
 import { Icon } from "./Icon";
 import { ErrorMessage } from "./ErrorMessage";
 
-export const InputText = {
+export const TextInput = {
    Label,
    Input,
    Root,

@@ -6,5 +6,5 @@ interface IIcon extends IconProps {
 }
 
 export const Icon = ({ icon: Icone, ...rest }: IIcon) => {
-   return <Icone {...rest} />;
+   return <Icone className="ml-4" {...rest} />;
 };
