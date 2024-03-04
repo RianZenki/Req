@@ -1,120 +1,117 @@
-import { Formik, Form, Field, ErrorMessage }  from 'formik'
-import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import * as yup from 'yup'
+import { CircleNotch, EnvelopeSimple, LockKey } from "phosphor-react";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { z } from "zod";
 
-import { EnvelopeSimple, LockKey } from 'phosphor-react'
+import { InputText } from "@/components/InputText/index.js";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useAuth } from '../../contexts/AuthContext.jsx'
+const createLoginFormSchema = z.object({
+   email: z
+      .string()
+      .min(1, "* Campo obrigatório")
+      .email("* Digite um e-mail válido"),
+   password: z.string().min(8, "* Necessário pelo menos 8 caracteres"),
+});
 
-import styles from './style.module.css'
-
+type createLoginData = z.infer<typeof createLoginFormSchema>;
 
 export const Login = () => {
-  const { handleLogin } = useAuth()
+   const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] = useState(false)
-  const [aberto, setAberto] = useState(false)
-  const [mostrandoAlert, setMostrandoAlert] = useState(false)
-  const [dados, setDados] = useState({})
+   const createLoginForm = useForm<createLoginData>({
+      resolver: zodResolver(createLoginFormSchema),
+   });
 
-  const validationLogin = yup.object().shape({
-      email: yup.string().email("* Digite um email válido").required("* Campo obrigatório"),
-      senha: yup.string().min(8, "* Necessário pelo menos 8 caracteres").required('* Campo obrigatório'),
-  })
+   const { handleSubmit } = createLoginForm;
 
-  return (
-    <div className={styles.container}>
+   const handleLogin = (data: createLoginData) => {
+      console.log(data);
+   };
 
-      <Formik 
-        initialValues={{
-          email: '',
-          senha: ''
-        }}
-
-        onSubmit={values => handleLogin(values, setLoading, setMostrandoAlert, setDados)}
-        validationSchema={validationLogin}
+   return (
+      <div
+         className={
+            "w-screen h-screen flex flex-col items-center justify-center bg-[linear-gradient(to_bottom,_#0582ca_50%,_#f8f8f8_50%)]"
+         }
       >
-        <div className={styles['login-container']}>
-           
-          <header>
-            <p>Logo</p>
-            <h1>Nome do projeto</h1>
-            <h2>Realize suas solicitações aqui!</h2>
-          </header>
+         <div className="py-12 px-16 border border-[#e9e9e9] rounded-lg bg-white flex flex-col items-center">
+            <header className="flex flex-col items-center">
+               <p>Logo</p>
+               <h1 className="text-3xl font-bold mt-8">REQ</h1>
+               <h2 className="text-lg font-normal text-[#646464] mt-4">
+                  Realize suas solicitações aqui!
+               </h2>
+            </header>
 
-          <Form>
-            <div className={styles["login-form-container"]}>
-              <div className={styles["wrap-input"]}>
-                <div className={styles["input-group"]}>
-                  <label htmlFor="email">
-                    <p>Endereço de e-mail</p>
-                    <div className={styles["input-container"]}>
-                      <EnvelopeSimple color="#4D4D4D" size={24} />
-                      <Field 
-                        className={styles["input"]}
-                        name="email"
-                        id="email"
-                        placeholder="aluno@email.com"
-                      />
-                      <ErrorMessage
-                        component="span"
-                        name="email"
-                        className={styles["form-error"]}
-                      />
-                    </div>
-                  </label>
-                </div>
-              </div>
+            <FormProvider {...createLoginForm}>
+               <form
+                  onSubmit={handleSubmit(handleLogin)}
+                  className="mt-8 w-[400px]"
+               >
+                  <InputText.Root>
+                     <InputText.Label htmlFor="email">
+                        Endereço de e-mail
+                        <InputText.Field>
+                           <InputText.Icon
+                              icon={EnvelopeSimple}
+                              size={24}
+                              color="#4D4D4D"
+                           />
+                           <InputText.Input
+                              name="email"
+                              type="email"
+                              placeholder="aluno@email.com"
+                           />
+                        </InputText.Field>
+                        <InputText.ErrorMessage field="email" />
+                     </InputText.Label>
+                  </InputText.Root>
 
-              <div className={styles["wrap-input"]}>
-                <div className={styles["input-group"]}>
-                  <label htmlFor="senha">
-                    <p>Sua senha</p>
-                    <div className={styles["input-container"]}>
-                      <LockKey color="#4D4D4D" size={24} />
-                      <Field 
-                        className={styles["input"]}
-                        name="senha" 
-                        id="senha"
-                        type="password"
-                        placeholder="********"
-                      />
-                      <ErrorMessage
-                        component="span"
-                        name="senha"
-                        className={styles["form-error"]}
-                      />
-                    </div>
-                  </label>
-                </div>
-              </div>
+                  <InputText.Root>
+                     <InputText.Label htmlFor="password">
+                        Endereço de e-mail
+                        <InputText.Field>
+                           <InputText.Icon
+                              icon={LockKey}
+                              size={24}
+                              color="#4D4D4D"
+                           />
+                           <InputText.Input
+                              name="password"
+                              type="password"
+                              placeholder="********"
+                           />
+                        </InputText.Field>
+                        <InputText.ErrorMessage field="password" />
+                     </InputText.Label>
+                  </InputText.Root>
 
-              <div className={styles["wrap-buttons"]}>
-                <div className={styles["button-container"]}>
-                  {loading ? (
-                    <button type="submit">
-                      Entrando...
-                    </button>
-                  ) : (
-                    <button type="submit">
-                      Entrar no sistema
-                    </button>
-                  )}
-                </div>
-              </div>
+                  <button className="w-full h-10 text-base text-white font-semibold border-none bg-brandColor-700 rounded cursor-pointer mt-6 flex justify-center items-center gap-1 transition hover:bg-[#2672f9]">
+                     {loading ? (
+                        <>
+                           <CircleNotch size={20} className="animate-spin" />
+                           Conectando...
+                        </>
+                     ) : (
+                        <>Entrar no sistema</>
+                     )}
+                  </button>
+               </form>
+            </FormProvider>
 
-            </div>
-          </Form>
-
-          <footer className={styles["footer"]}>
-            <p className={styles["link"]} onClick={() => setAberto(true)}>Esqueceu a senha?</p>
-            <p><Link to="/cadastro">Não possui cadastro no sitema? Cadastre-se</Link></p>
-          </footer>
-
-        </div>
-      </Formik>
-
-    </div>
-  )
-}
+            <footer className="flex flex-col items-center mt-8 gap-3">
+               <p className="cursor-pointer text-xs text-[#646464]">
+                  Esqueceu a senha?
+               </p>
+               <p>
+                  <Link className="text-[#646464] text-xs" to="/cadastro">
+                     Não possui cadastro no sitema? Cadastre-se
+                  </Link>
+               </p>
+            </footer>
+         </div>
+      </div>
+   );
+};
