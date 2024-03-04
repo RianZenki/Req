@@ -4,8 +4,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 
-import { InputText } from "@/components/InputText/index.js";
+import { TextInput } from "@/components/TextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AccountRecoveryModal } from "@/components/AccountRecoveryModal";
 
 const createLoginFormSchema = z.object({
    email: z
@@ -39,7 +40,7 @@ export const Login = () => {
          <div className="py-12 px-16 border border-[#e9e9e9] rounded-lg bg-white flex flex-col items-center">
             <header className="flex flex-col items-center">
                <p>Logo</p>
-               <h1 className="text-3xl font-bold mt-8">REQ</h1>
+               <h1 className="text-3xl font-bold mt-8">Req</h1>
                <h2 className="text-lg font-normal text-[#646464] mt-4">
                   Realize suas solicitações aqui!
                </h2>
@@ -50,43 +51,43 @@ export const Login = () => {
                   onSubmit={handleSubmit(handleLogin)}
                   className="mt-8 w-[400px]"
                >
-                  <InputText.Root>
-                     <InputText.Label htmlFor="email">
+                  <TextInput.Root>
+                     <TextInput.Label htmlFor="email">
                         Endereço de e-mail
-                        <InputText.Field>
-                           <InputText.Icon
+                        <TextInput.Field>
+                           <TextInput.Icon
                               icon={EnvelopeSimple}
                               size={24}
                               color="#4D4D4D"
                            />
-                           <InputText.Input
+                           <TextInput.Input
                               name="email"
                               type="email"
                               placeholder="aluno@email.com"
                            />
-                        </InputText.Field>
-                        <InputText.ErrorMessage field="email" />
-                     </InputText.Label>
-                  </InputText.Root>
+                        </TextInput.Field>
+                        <TextInput.ErrorMessage field="email" />
+                     </TextInput.Label>
+                  </TextInput.Root>
 
-                  <InputText.Root>
-                     <InputText.Label htmlFor="password">
+                  <TextInput.Root>
+                     <TextInput.Label htmlFor="password">
                         Endereço de e-mail
-                        <InputText.Field>
-                           <InputText.Icon
+                        <TextInput.Field>
+                           <TextInput.Icon
                               icon={LockKey}
                               size={24}
                               color="#4D4D4D"
                            />
-                           <InputText.Input
+                           <TextInput.Input
                               name="password"
                               type="password"
                               placeholder="********"
                            />
-                        </InputText.Field>
-                        <InputText.ErrorMessage field="password" />
-                     </InputText.Label>
-                  </InputText.Root>
+                        </TextInput.Field>
+                        <TextInput.ErrorMessage field="password" />
+                     </TextInput.Label>
+                  </TextInput.Root>
 
                   <button className="w-full h-10 text-base text-white font-semibold border-none bg-brandColor-700 rounded cursor-pointer mt-6 flex justify-center items-center gap-1 transition hover:bg-[#2672f9]">
                      {loading ? (
@@ -102,9 +103,7 @@ export const Login = () => {
             </FormProvider>
 
             <footer className="flex flex-col items-center mt-8 gap-3">
-               <p className="cursor-pointer text-xs text-[#646464]">
-                  Esqueceu a senha?
-               </p>
+              <AccountRecoveryModal />
                <p>
                   <Link className="text-[#646464] text-xs" to="/cadastro">
                      Não possui cadastro no sitema? Cadastre-se
