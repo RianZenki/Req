@@ -55,8 +55,9 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
         brandColor: {
-          600: "#3498db",
+          500: "#3498db",
           700: "#1b5ed6",
+          800: "#003554"
         }
       },
       borderRadius: {
@@ -73,10 +74,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "progress-bar-decreasing": {
+          from: { width: "100%" },
+          to: { width: "0%" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "progress-bar-decreasing": "progress-bar-decreasing 3s linear",
       },
     },
   },
