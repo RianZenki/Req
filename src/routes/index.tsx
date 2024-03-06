@@ -1,7 +1,8 @@
+import { Header } from "@/components/Header";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Login } from "@/screens/Login";
 import { Register } from "@/screens/Register";
-import { Outlet, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
    {
@@ -13,7 +14,7 @@ export const router = createBrowserRouter([
       element: <Register />,
    },
    {
-      element: <div>Header <Outlet /></div>,
+      element: <Header />,
       children: [
          {
             path: "/home",

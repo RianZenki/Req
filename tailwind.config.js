@@ -55,7 +55,7 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
         brandColor: {
-          500: "#3498db",
+          500: "#0582CA",
           700: "#1b5ed6",
           800: "#003554"
         }
