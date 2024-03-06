@@ -72,7 +72,7 @@ export const Login = () => {
 
                   <TextInput.Root>
                      <TextInput.Label htmlFor="password">
-                        Endereço de e-mail
+                        Sua senha
                         <TextInput.Field>
                            <TextInput.Icon
                               icon={LockKey}

@@ -39,7 +39,6 @@ export const AccountRecoveryModal = () => {
 
    return (
       <>
-         <Alert text="Pode dar bom fi!" type="warning" />
          <Dialog>
             <DialogTrigger asChild>
                <p className="cursor-pointer text-xs text-[#646464] hover:underline">
