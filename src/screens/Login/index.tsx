@@ -103,9 +103,12 @@ export const Login = () => {
             </FormProvider>
 
             <footer className="flex flex-col items-center mt-8 gap-3">
-              <AccountRecoveryModal />
+               <AccountRecoveryModal />
                <p>
-                  <Link className="text-[#646464] text-xs" to="/cadastro">
+                  <Link
+                     className="text-[#646464] text-xs hover:underline"
+                     to="/cadastro"
+                  >
                      Não possui cadastro no sitema? Cadastre-se
                   </Link>
                </p>

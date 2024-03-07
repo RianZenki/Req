@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Home } from "@/screens/Home";
 import { Login } from "@/screens/Login";
 import { Register } from "@/screens/Register";
 import { createBrowserRouter } from "react-router-dom";
@@ -18,16 +19,7 @@ export const router = createBrowserRouter([
       children: [
          {
             path: "/home",
-            element: <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Theme" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
-            </SelectContent>
-          </Select>
+            element: <Home />
          }
       ]
    }
