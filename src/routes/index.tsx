@@ -1,5 +1,4 @@
 import { Header } from "@/components/Header";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Home } from "@/screens/Home";
 import { Login } from "@/screens/Login";
 import { Register } from "@/screens/Register";

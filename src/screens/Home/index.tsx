@@ -1,4 +1,29 @@
+import { columns } from "@/components/RequestTable/columns";
+import { DataTable } from "@/components/RequestTable/data-table";
 import { Plus } from "phosphor-react";
+
+const data = [
+   {
+      id: "728ed52f",
+      type: "Comprovante de estudante",
+      requester: "Jacinto Pinto",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },
+    {
+      id: "728ed52a",
+      type: "Comprovante de estudante",
+      requester: "Thomar Turbando",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },    {
+      id: "728ed52b",
+      type: "Comprovante de estudante",
+      requester: "Paula Tejando",
+      createdAt: new Date().toISOString(),
+      status: "success",
+    },
+ ]
 
 export const Home = () => {
    return (
@@ -26,7 +51,11 @@ export const Home = () => {
                   <option value="">Status</option>
                </select>
             </div>
-            <div>Table</div>
+
+            <div className="container mx-auto py-10">
+               <DataTable columns={columns} data={data} />
+            </div>
+
             <div>Footer</div>
          </div>
       </div>
