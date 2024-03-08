@@ -23,11 +23,111 @@ const data = [
       createdAt: new Date().toISOString(),
       status: "success",
     },
+    {
+      id: "728ed52f",
+      type: "Comprovante de estudante",
+      requester: "Jacinto Pinto",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },
+    {
+      id: "728ed52a",
+      type: "Comprovante de estudante",
+      requester: "Thomar Turbando",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },    {
+      id: "728ed52b",
+      type: "Comprovante de estudante",
+      requester: "Paula Tejando",
+      createdAt: new Date().toISOString(),
+      status: "success",
+    },
+    {
+      id: "728ed52f",
+      type: "Comprovante de estudante",
+      requester: "Jacinto Pinto",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },
+    {
+      id: "728ed52a",
+      type: "Comprovante de estudante",
+      requester: "Thomar Turbando",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },    {
+      id: "728ed52b",
+      type: "Comprovante de estudante",
+      requester: "Paula Tejando",
+      createdAt: new Date().toISOString(),
+      status: "success",
+    },
+    {
+      id: "728ed52f",
+      type: "Comprovante de estudante",
+      requester: "Jacinto Pinto",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },
+    {
+      id: "728ed52a",
+      type: "Comprovante de estudante",
+      requester: "Thomar Turbando",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },    {
+      id: "728ed52b",
+      type: "Comprovante de estudante",
+      requester: "Paula Tejando",
+      createdAt: new Date().toISOString(),
+      status: "success",
+    },
+    {
+      id: "728ed52f",
+      type: "Comprovante de estudante",
+      requester: "Jacinto Pinto",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },
+    {
+      id: "728ed52a",
+      type: "Comprovante de estudante",
+      requester: "Thomar Turbando",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },    {
+      id: "728ed52b",
+      type: "Comprovante de estudante",
+      requester: "Paula Tejando",
+      createdAt: new Date().toISOString(),
+      status: "success",
+    },
+    {
+      id: "728ed52f",
+      type: "Comprovante de estudante",
+      requester: "Jacinto Pinto",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },
+    {
+      id: "728ed52a",
+      type: "Comprovante de estudante",
+      requester: "Thomar Turbando",
+      createdAt: new Date().toISOString(),
+      status: "in progress",
+    },    {
+      id: "728ed52b",
+      type: "Comprovante de estudante",
+      requester: "Paula Tejando",
+      createdAt: new Date().toISOString(),
+      status: "success",
+    },
  ]
 
 export const Home = () => {
    return (
-      <div className="w-full px-20 mt-10">
+      <div className="w-full max-w-[1600px] px-20 mx-auto mt-10">
          <div className="flex justify-between items-center">
             <div>
                <h2 className="text-2xl font-bold">Minhas solicitações</h2>
@@ -52,7 +152,7 @@ export const Home = () => {
                </select>
             </div>
 
-            <div className="container mx-auto py-10">
+            <div className="w-full py-10">
                <DataTable columns={columns} data={data} />
             </div>
 

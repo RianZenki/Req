@@ -13,7 +13,7 @@ import {
 export const Header = () => {
    return (
       <>
-         <header className="w-full bg-brandColor-500 flex justify-between items-center text-base px-20">
+         <header className="w-full bg-brandColor-500 flex justify-between items-center text-base px-28">
             <div>
                <p>Logo</p>
             </div>
