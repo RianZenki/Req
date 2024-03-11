@@ -14,6 +14,12 @@ import {
    TableRow,
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
+import {
+   CaretDoubleLeft,
+   CaretDoubleRight,
+   CaretLeft,
+   CaretRight,
+} from "phosphor-react";
 
 interface DataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[];
@@ -29,6 +35,11 @@ export function DataTable<TData, TValue>({
       columns,
       getCoreRowModel: getCoreRowModel(),
       getPaginationRowModel: getPaginationRowModel(),
+      initialState: {
+         pagination: {
+            pageSize: 10
+         }
+      }
    });
 
    return (
@@ -40,13 +51,16 @@ export function DataTable<TData, TValue>({
                      <TableRow key={headerGroup.id}>
                         {headerGroup.headers.map((header) => {
                            return (
-                              <TableHead key={header.id}>
+                              <TableHead
+                                 key={header.id}
+                                 className={"text-base"}
+                              >
                                  {header.isPlaceholder
                                     ? null
                                     : flexRender(
-                                       header.column.columnDef.header,
-                                       header.getContext()
-                                    )}
+                                         header.column.columnDef.header,
+                                         header.getContext()
+                                      )}
                               </TableHead>
                            );
                         })}
@@ -59,10 +73,15 @@ export function DataTable<TData, TValue>({
                         <TableRow
                            key={row.id}
                            data-state={row.getIsSelected() && "selected"}
+                           className="cursor-pointer"
                            onClick={() => console.log(row.original)}
                         >
                            {row.getVisibleCells().map((cell) => (
-                              <TableCell key={cell.id}>
+                              <TableCell
+                                 key={cell.id}
+                                 className={"text-base"}
+                                 style={{ width: cell.column.getSize() }}
+                              >
                                  {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
@@ -77,7 +96,7 @@ export function DataTable<TData, TValue>({
                            colSpan={columns.length}
                            className="h-24 text-center"
                         >
-                           No results.
+                           Nenhum resultado encontrado.
                         </TableCell>
                      </TableRow>
                   )}
@@ -85,13 +104,17 @@ export function DataTable<TData, TValue>({
             </Table>
          </div>
          <div className="flex items-center justify-end space-x-2 py-4">
+            <div className=" text-sm font-medium mr-8">
+               Página {table.getState().pagination.pageIndex + 1} de{" "}
+               {table.getPageCount()}
+            </div>
             <Button
                variant="outline"
                size="sm"
                onClick={() => table.firstPage()}
                disabled={!table.getCanPreviousPage()}
             >
-               First
+               <CaretDoubleLeft />
             </Button>
             <Button
                variant="outline"
@@ -99,7 +122,7 @@ export function DataTable<TData, TValue>({
                onClick={() => table.previousPage()}
                disabled={!table.getCanPreviousPage()}
             >
-               Previus
+               <CaretLeft />
             </Button>
             <Button
                variant="outline"
@@ -107,7 +130,7 @@ export function DataTable<TData, TValue>({
                onClick={() => table.nextPage()}
                disabled={!table.getCanNextPage()}
             >
-               Next
+               <CaretRight />
             </Button>
             <Button
                variant="outline"
@@ -115,7 +138,7 @@ export function DataTable<TData, TValue>({
                onClick={() => table.lastPage()}
                disabled={!table.getCanNextPage()}
             >
-               Last
+               <CaretDoubleRight />
             </Button>
          </div>
       </>

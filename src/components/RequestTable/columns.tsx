@@ -1,44 +1,51 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef } from "@tanstack/react-table";
 
 export interface Request {
-   id: string,
-   type: string,
-   requester: string,
-   createdAt: string,
-   status: "success" | "in progress"
+   id: string;
+   type: string;
+   requester: string;
+   createdAt: string;
+   status: "success" | "in progress";
 }
+
+const statusEnum = {
+   success: "Finalizado",
+   "in progress": "Em andamento",
+};
 
 export const columns: ColumnDef<any>[] = [
    {
       accessorKey: "type",
       header: "Tipo da solicitação",
-      size: 500,
-      minSize: 600,
+      size: 600,
    },
    {
       accessorKey: "requester",
       header: "Solicitante",
       size: 500,
-      maxSize: 600,
    },
    {
       accessorKey: "createdAt",
       header: "Data de criação",
-      size: 500,
-      maxSize: 600,
+      size: 300,
    },
    {
       accessorKey: "status",
       header: "Status",
+      size: 200,
       cell: ({ row }) => {
-         const status = row.getValue("status")
+         const status = row.getValue("status");
 
          return (
-            <div className="flex gap-2">
-               <div className={`rounded-full size-5 bg-${status === "success" ? "green-600" : "yellow-500"}`} />
-               {row.getValue("status")}
+            <div className="flex gap-2 items-center text-base">
+               <div
+                  className={`rounded-full size-4 ${
+                     status === "success" ? "bg-green-600" : "bg-yellow-500"
+                  }`}
+               />
+               {statusEnum[row.getValue("status") as keyof typeof statusEnum]}
             </div>
-         )
-      }
+         );
+      },
    },
-]
+];
