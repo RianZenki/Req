@@ -20,8 +20,8 @@ export const columns: ColumnDef<any>[] = [
       size: 600,
    },
    {
-      accessorKey: "requester",
-      header: "Solicitante",
+      accessorKey: "studant",
+      header: "Aluno",
       size: 500,
    },
    {

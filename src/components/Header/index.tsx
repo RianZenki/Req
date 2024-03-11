@@ -5,8 +5,6 @@ import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
@@ -50,7 +48,7 @@ export const Header = () => {
                      </p>
                      <CaretDown size={20} weight="bold" color={"#ffffff"} />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[200px] bg-brandColor-500">
+                  <DropdownMenuContent className="w-[200px] bg-brandColor-500 border-none">
                      <DropdownMenuItem className="focus:bg-sky-700">
                         <NavLink
                            to="/perfil"
@@ -66,21 +64,6 @@ export const Header = () => {
                      </DropdownMenuItem>
                   </DropdownMenuContent>
                </DropdownMenu>
-
-               {/* <div className="flex absolute top-16 w-[200px] bg-brandColor-500 right-0 rounded z-10">
-                     <ul className="w-full">
-                        <li className="list-none w-full px-6 py-3 flex items-center text-white gap-4 text-base hover:bg-[#3498db]">
-                           <NavLink to="/perfil" className="flex items-center gap-3 no-underline text-white" >
-                           <User size={20} color={"#ffffff"} />
-                           Perfil
-                           </NavLink>
-                        </li>
-                        <li className="list-none w-full px-6 py-3 flex items-center text-white gap-4 text-base hover:bg-[#3498db]">
-                           <SignOut size={20} color={"#ffffff"} />
-                           Sair
-                        </li>
-                     </ul>
-                  </div> */}
             </div>
          </header>
          <Outlet />
