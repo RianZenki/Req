@@ -37,7 +37,7 @@ export function DataTable<TData, TValue>({
       getPaginationRowModel: getPaginationRowModel(),
       initialState: {
          pagination: {
-            pageSize: 10
+            pageSize: 9
          }
       }
    });
@@ -48,12 +48,12 @@ export function DataTable<TData, TValue>({
             <Table>
                <TableHeader>
                   {table.getHeaderGroups().map((headerGroup) => (
-                     <TableRow key={headerGroup.id}>
+                     <TableRow key={headerGroup.id} className="bg-gray-100 hover:bg-gray-100">
                         {headerGroup.headers.map((header) => {
                            return (
                               <TableHead
                                  key={header.id}
-                                 className={"text-base"}
+                                 className={"text-lg px-3 py-2"}
                               >
                                  {header.isPlaceholder
                                     ? null
@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({
                            {row.getVisibleCells().map((cell) => (
                               <TableCell
                                  key={cell.id}
-                                 className={"text-base"}
+                                 className={"text-base p-3"}
                                  style={{ width: cell.column.getSize() }}
                               >
                                  {flexRender(
