@@ -21,7 +21,7 @@ export const Header = () => {
                   <ul className="flex itesm-center gap-10">
                      <li className="list-none flex items-center text-white">
                         <NavLink
-                           to="/solicitacao"
+                           to="/nova-solicitacao"
                            className="flex items-center gap-1 py-6 text-xl text-white no-underline hover:underline"
                         >
                            Nova Solicitação

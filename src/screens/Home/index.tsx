@@ -17,12 +17,14 @@ import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { Plus } from "phosphor-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
    type Checked = DropdownMenuCheckboxItemProps["checked"]
  
   const [showStatusBar, setShowStatusBar] = useState<Checked>(true)
   const [showActivityBar, setShowActivityBar] = useState<Checked>(false)
+  const navigate = useNavigate()
 
    return (
       <div className="w-full max-w-[1600px] px-20 mx-auto mt-10">
@@ -33,7 +35,7 @@ export const Home = () => {
                   Aqui estão suas solicitações
                </p>
             </div>
-            <button className="w-[200px] h-12 px-5 py-4 rounded bg-brandColor-700 text-white transition hover:bg-[#2672f9] flex items-center gap-2">
+            <button onClick={() => navigate("/nova-solicitacao")} className="w-[200px] h-12 px-5 py-4 rounded bg-brandColor-700 text-white transition hover:bg-[#2672f9] flex items-center gap-2">
                <Plus size={24} color={"#FFF"} />
                Nova solicitação
             </button>
