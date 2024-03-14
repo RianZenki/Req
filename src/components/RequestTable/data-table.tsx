@@ -20,6 +20,7 @@ import {
    CaretLeft,
    CaretRight,
 } from "phosphor-react";
+import { useNavigate } from "react-router-dom";
 
 interface DataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[];
@@ -41,6 +42,8 @@ export function DataTable<TData, TValue>({
          }
       }
    });
+
+   const navigate = useNavigate()
 
    return (
       <>
@@ -74,7 +77,10 @@ export function DataTable<TData, TValue>({
                            key={row.id}
                            data-state={row.getIsSelected() && "selected"}
                            className="cursor-pointer"
-                           onClick={() => console.log(row.original)}
+                           onClick={() => {
+                              const data = row.original as TData & { id: number }
+                              navigate(`/solicitacao/${data.id}`)
+                           }}
                         >
                            {row.getVisibleCells().map((cell) => (
                               <TableCell
