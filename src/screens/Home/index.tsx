@@ -2,28 +2,27 @@ import { columns } from "@/components/RequestTable/columns";
 import { DataTable } from "@/components/RequestTable/data-table";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import {
-   Select,
-   SelectContent,
-   SelectGroup,
-   SelectItem,
-   SelectLabel,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/ui/select";
 import { data } from "@/utils/fake-data";
 import { requestTypes } from "@/utils/request-types";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { Plus } from "phosphor-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
-   type Checked = DropdownMenuCheckboxItemProps["checked"]
- 
-  const [showStatusBar, setShowStatusBar] = useState<Checked>(true)
-  const [showActivityBar, setShowActivityBar] = useState<Checked>(false)
+  const [access, setAccess] = useState(false);
+  const [disciplineRush, setDisciplineRush] = useState(false);
+  const [signature, setSignature] = useState(false);
+  const [cancellation, setCancellation] = useState(false);
+  const [fatecCard, setFatecCard] = useState(false);
+  const [registrationProof, setRegistrationProof] = useState(false);
+  const [programContent, setProgramContent] = useState(false);
+  const [abandoningSubjects, setAbandoningSubjects] = useState(false);
+  const [schoolRecords, setSchoolRecords] = useState(false);
+  const [information, setInformation] = useState(false);
+  const [contractTemplates, setContractTemplates] = useState(false);
+  const [lockout, setLockout] = useState(false);
+
   const navigate = useNavigate()
 
    return (
@@ -49,19 +48,89 @@ export const Home = () => {
                />
 
                <div className="flex gap-6">
-                  <Select>
-                     <SelectTrigger className="w-[230px] h-9.25 font-semibold">
-                        <SelectValue placeholder="Tipo de solicitação" />
-                     </SelectTrigger>
-                     <SelectContent>
-                        <SelectGroup>
-                           <SelectLabel>Tipo de solicitação</SelectLabel>
-                              {requestTypes.map(type => (
-                                 <SelectItem key={type} value={type}>{type}</SelectItem>
-                                 ))}
-                        </SelectGroup>
-                     </SelectContent>
-                  </Select>
+                  <DropdownMenu>
+                     <DropdownMenuTrigger className="w-[230px] h-9.25" asChild >
+                        <Button variant="outline" className="flex justify-between font-semibold">
+                        Tipo de solicitação <ChevronDownIcon className="ml-2 h-4 w-4" />
+                        </Button>
+                     </DropdownMenuTrigger>
+                     <DropdownMenuContent className="w-[230px]">
+                        <DropdownMenuLabel>Tipo de solicitação</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                           <DropdownMenuCheckboxItem
+                              checked={access}
+                              onCheckedChange={setAccess}
+                              >
+                              Acesso e senhas
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={disciplineRush}
+                              onCheckedChange={setDisciplineRush}
+                              >
+                              Apressamento de disciplina
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={signature}
+                              onCheckedChange={setSignature}
+                              >
+                              Assinaturas
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={cancellation}
+                              onCheckedChange={setCancellation}
+                              >
+                              Cancelamento
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={fatecCard}
+                              onCheckedChange={setFatecCard}
+                              >
+                              Carteirinha Fatec
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={registrationProof}
+                              onCheckedChange={setRegistrationProof}
+                              >
+                              Comprovante de matricula
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={programContent}
+                              onCheckedChange={setProgramContent}
+                              >
+                              Conteúdos programáticos
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={abandoningSubjects}
+                              onCheckedChange={setAbandoningSubjects}
+                              >
+                              Desitência de disciplinas
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={schoolRecords}
+                              onCheckedChange={setSchoolRecords}
+                              >
+                              Histórico Escolar
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={information}
+                              onCheckedChange={setInformation}
+                              >
+                              Informações
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={contractTemplates}
+                              onCheckedChange={setContractTemplates}
+                              >
+                              Modelos de Contratos
+                           </DropdownMenuCheckboxItem>
+                           <DropdownMenuCheckboxItem
+                              checked={lockout}
+                              onCheckedChange={setLockout}
+                              >
+                              Trancamento
+                           </DropdownMenuCheckboxItem>
+                     </DropdownMenuContent>
+                  </DropdownMenu>
 
                   <DropdownMenu>
                      <DropdownMenuTrigger className="w-[180px] h-9.25" asChild >
@@ -73,17 +142,17 @@ export const Home = () => {
                         <DropdownMenuLabel>Status</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuCheckboxItem
-                           checked={showStatusBar}
-                           onCheckedChange={setShowStatusBar}
+                           checked={access}
+                           onCheckedChange={setAccess}
                            >
                            Em andamento
                         </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                           checked={showActivityBar}
-                           onCheckedChange={setShowActivityBar}
+                        {/* <DropdownMenuCheckboxItem
+                           checked={requestType.abandoningSubjects}
+                           onCheckedChange={() => setRequestType(prev => ({...requestType, abandoningSubjects: !prev.abandoningSubjects}))}
                            >
                            Finalizado
-                        </DropdownMenuCheckboxItem>
+                        </DropdownMenuCheckboxItem> */}
                      </DropdownMenuContent>
                   </DropdownMenu>
                </div>

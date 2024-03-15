@@ -6,9 +6,9 @@ import { requestTypes } from "@/utils/request-types"
 
 export const NewRequest = () => {
    return (
-      <div className="w-full max-w-[1600px] px-20 mx-auto mt-10 flex flex-col gap-6">
+      <div className="w-full max-w-[1600px] px-32 mx-auto mt-10 flex flex-col gap-6">
          <NavBar />
-         <div className="px-36 flex flex-col gap-4">
+         <div className="px-24 flex flex-col gap-4">
             <div>
                <h2 className="text-4xl font-bold mb-1">Nova solicitação</h2>
                <p className="text-muted-foreground">Crie uma nova solicitação</p>
@@ -18,7 +18,7 @@ export const NewRequest = () => {
          
             <form className="flex flex-col gap-5">
                <section>
-                  <label htmlFor="request-type" className="inline-block font-bold text-2xl">Tipo da solicitação</label>
+                  <label htmlFor="request-type" className="inline-block font-semibold text-2xl">Tipo da solicitação</label>
                   <p className="text-muted-foreground text-sm mb-3">Selecione o tipo da solicitação</p>
                      <Select>
                         <SelectTrigger id="request-type" className="w-full h-14 text-base border-none shadow-none  bg-[#f5f5f5] focus:outline focus:outline-brandColor-700 focus-within:outline-1">
@@ -38,15 +38,15 @@ export const NewRequest = () => {
                <Separator />
 
                <section>
-                  <label htmlFor="description" className="inline-block font-bold text-2xl">Descrição</label>
+                  <label htmlFor="description" className="inline-block font-semibold text-2xl">Descrição</label>
                   <p className="text-muted-foreground text-sm mb-3">Infome a descrição e dados adicionais sobre a solicitação</p>
-                  <Textarea id="description" placeholder="Informe a descrição da solicitação" rows={6} className="resize-none text-base focus-visible:ring-brandColor-700" />
+                  <Textarea id="description" placeholder="Informe a descrição da solicitação" rows={6} className="resize-none text-base bg-[#f5f5f5] focus-visible:ring-brandColor-700" />
                </section>
 
                <Separator />
 
                <section>
-                  <label htmlFor="" className="inline-block font-bold text-2xl">Anexar arquivo</label>
+                  <label htmlFor="" className="inline-block font-semibold text-2xl">Anexar arquivo</label>
                   <p className="text-muted-foreground text-sm mb-3">Anexe arquivos necessários para a realização da solicitação</p>
                   <input type="file" name="" id="" />
                   use-file-picker
