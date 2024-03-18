@@ -10,7 +10,7 @@ export const Input = (props: InputProps) => {
 
    return (
       <input
-         className="w-full p-4 pl-2 border-none rounded bg-[#F5F5F5] text-base outline-none"
+         className="w-full p-4 border-none rounded bg-[#F5F5F5] text-base outline-none"
          id={props.name}
          {...register(props.name)} 
          {...props}

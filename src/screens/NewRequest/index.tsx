@@ -28,7 +28,7 @@ export const NewRequest = () => {
                            <SelectGroup>
                               <SelectLabel>Tipo de solicitação</SelectLabel>
                                  {requestTypes.map(type => (
-                                    <SelectItem value={type}>{type}</SelectItem>
+                                    <SelectItem key={type} value={type}>{type}</SelectItem>
                                     ))}
                            </SelectGroup>
                         </SelectContent>
