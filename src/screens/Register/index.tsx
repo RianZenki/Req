@@ -7,11 +7,13 @@ import {
 } from "@/components/ui/select";
 import { CaretLeft, CircleNotch } from "phosphor-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TextInput } from "../../components/TextInput";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import api from "@/services/api";
+import { toast } from "react-toastify";
 
 const createRegisterFormSchema = z
    .object({
@@ -40,6 +42,7 @@ type createRegisterData = z.infer<typeof createRegisterFormSchema>;
 
 export const Register = () => {
    const [loading, setLoading] = useState(false);
+   const navigate = useNavigate();
 
    const createRegisterForm = useForm<createRegisterData>({
       resolver: zodResolver(createRegisterFormSchema),
@@ -47,8 +50,25 @@ export const Register = () => {
 
    const { handleSubmit, control } = createRegisterForm;
 
-   const handleRegister = (data: any) => {
-      console.log(data);
+   const handleRegister = async ({ name, email, course, period, ra, password }: createRegisterData) => {
+      setLoading(true)
+
+      try {
+         const response = await api.post('/auth/cadastro', { 
+            nome: name,
+            email,
+				curso: course,
+				turno: period,
+				ra,
+				senha: password,
+          })
+         toast.success(response.data.msg)
+         navigate("/");
+      } catch (error: any) {
+         const data = error.response.data
+         toast.error(data.msg)
+      }
+      setLoading(false)
    };
 
    return (
