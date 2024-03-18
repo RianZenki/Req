@@ -14,7 +14,7 @@ export const NewRequest = () => {
                <p className="text-muted-foreground">Crie uma nova solicitação</p>
             </div>
 
-            <Separator />
+            <Separator  />
          
             <form className="flex flex-col gap-5">
                <section>
