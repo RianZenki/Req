@@ -1,12 +1,14 @@
 import { CircleNotch, EnvelopeSimple, LockKey } from "phosphor-react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AccountRecoveryModal } from "@/components/AccountRecoveryModal";
+import { toast } from "react-toastify";
+import api from "@/services/api";
 
 const createLoginFormSchema = z.object({
    email: z
@@ -20,6 +22,7 @@ type createLoginData = z.infer<typeof createLoginFormSchema>;
 
 export const Login = () => {
    const [loading, setLoading] = useState(false);
+   const navigate = useNavigate()
 
    const createLoginForm = useForm<createLoginData>({
       resolver: zodResolver(createLoginFormSchema),
@@ -27,8 +30,25 @@ export const Login = () => {
 
    const { handleSubmit } = createLoginForm;
 
-   const handleLogin = (data: createLoginData) => {
-      console.log(data);
+   const handleLogin = async ({ email, password }: createLoginData) => {
+      try{
+         setLoading(true)
+         const response = await api.post("/auth/login", {
+            email,
+            senha: password
+         })
+         navigate("/home")
+      } catch (err: any) {
+         const { status, data } = err.response
+
+         if (status === 401)
+            toast.warning(data.msg || data.error)
+
+         if (status === 400)
+            toast.error(data.msg || data.error)
+
+         setLoading(false)
+      }
    };
 
    return (
