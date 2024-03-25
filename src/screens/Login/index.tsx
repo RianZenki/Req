@@ -1,14 +1,13 @@
 import { CircleNotch, EnvelopeSimple, LockKey } from "phosphor-react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 
 import { TextInput } from "@/components/TextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AccountRecoveryModal } from "@/components/AccountRecoveryModal";
-import { toast } from "react-toastify";
-import api from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 const createLoginFormSchema = z.object({
    email: z
@@ -22,34 +21,13 @@ type createLoginData = z.infer<typeof createLoginFormSchema>;
 
 export const Login = () => {
    const [loading, setLoading] = useState(false);
-   const navigate = useNavigate()
+   const { handleLogin } = useAuth();
 
    const createLoginForm = useForm<createLoginData>({
       resolver: zodResolver(createLoginFormSchema),
    });
 
    const { handleSubmit } = createLoginForm;
-
-   const handleLogin = async ({ email, password }: createLoginData) => {
-      try{
-         setLoading(true)
-         const response = await api.post("/auth/login", {
-            email,
-            senha: password
-         })
-         navigate("/home")
-      } catch (err: any) {
-         const { status, data } = err.response
-
-         if (status === 401)
-            toast.warning(data.msg || data.error)
-
-         if (status === 400)
-            toast.error(data.msg || data.error)
-
-         setLoading(false)
-      }
-   };
 
    return (
       <div
@@ -68,7 +46,9 @@ export const Login = () => {
 
             <FormProvider {...createLoginForm}>
                <form
-                  onSubmit={handleSubmit(handleLogin)}
+                  onSubmit={handleSubmit((data) =>
+                     handleLogin(data, setLoading)
+                  )}
                   className="mt-8 w-[400px]"
                >
                   <TextInput.Root>

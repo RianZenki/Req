@@ -9,6 +9,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
 import { data } from "@/utils/fake-data";
 import { translatedRequestStatus } from "@/utils/request-status";
 import { translatedRequestTypes } from "@/utils/request-types";
@@ -56,6 +57,7 @@ export const Home = () => {
       inProgress: false,
       success: false,
    });
+   const { studant } = useAuth();
 
    const handleSelectedTypesChange = (type: keyof RequestTypes): void => {
       setSelectedType((prevState) => ({
@@ -96,7 +98,6 @@ export const Home = () => {
                <input
                   className="w-[250px] border rounded px-3 py-1.5 shadow-sm text-base focus:outline-none focus:ring-1 focus:ring-ring"
                   placeholder="Pesquisar aluno..."
-
                />
 
                <div className="flex gap-6">
@@ -170,7 +171,7 @@ export const Home = () => {
                   </DropdownMenu>
                </div>
             </div>
-
+            <p>{studant?.nome}</p>
             <div className="w-full py-8">
                <DataTable columns={columns} data={data} />
             </div>

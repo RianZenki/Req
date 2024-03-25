@@ -7,8 +7,10 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const Header = () => {
+   const { handleLogout, studant } = useAuth();
    return (
       <>
          <header className="w-full bg-brandColor-500 flex justify-between items-center text-base px-28">
@@ -44,7 +46,7 @@ export const Header = () => {
                         <AvatarFallback>CN</AvatarFallback>
                      </Avatar>
                      <p className="text-ellipsis text-xl text-nowrap overflow-hidden max-w-[150px] text-white">
-                        Aluno
+                        {studant?.nome}
                      </p>
                      <CaretDown size={20} weight="bold" color={"#ffffff"} />
                   </DropdownMenuTrigger>
@@ -58,7 +60,10 @@ export const Header = () => {
                            Perfil
                         </NavLink>
                      </DropdownMenuItem>
-                     <DropdownMenuItem className="w-full cursor-pointer py-3.5 flex items-center gap-3 text-lg text-white focus:text-white focus:bg-sky-700">
+                     <DropdownMenuItem
+                        className="w-full cursor-pointer py-3.5 flex items-center gap-3 text-lg text-white focus:text-white focus:bg-sky-700"
+                        onClick={handleLogout}
+                     >
                         <SignOut size={24} />
                         Sair
                      </DropdownMenuItem>
