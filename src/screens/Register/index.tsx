@@ -23,7 +23,7 @@ const createRegisterFormSchema = z
          .min(1, "* Campo obrigatório")
          .email("* Digite um e-mail válido"),
       course: z.string({ required_error: "* Campo obrigatório" }).min(1),
-      period: z.string().min(1, "* Campo obrigatório"),
+      period: z.string({ required_error: "* Campo obrigatório" }).min(1),
       ra: z
          .string()
          .min(13, "* Requer 13 números")
@@ -50,25 +50,32 @@ export const Register = () => {
 
    const { handleSubmit, control } = createRegisterForm;
 
-   const handleRegister = async ({ name, email, course, period, ra, password }: createRegisterData) => {
-      setLoading(true)
+   const handleRegister = async ({
+      name,
+      email,
+      course,
+      period,
+      ra,
+      password,
+   }: createRegisterData) => {
+      setLoading(true);
 
       try {
-         const response = await api.post('/auth/cadastro', { 
+         const response = await api.post("/auth/cadastro", {
             nome: name,
             email,
-				curso: course,
-				turno: period,
-				ra,
-				senha: password,
-          })
-         toast.success(response.data.msg)
+            curso: course,
+            turno: period,
+            ra,
+            senha: password,
+         });
+         toast.success(response.data.msg);
          navigate("/");
       } catch (error: any) {
-         const data = error.response.data
-         toast.error(data.msg)
+         const data = error.response.data;
+         toast.error(data.msg);
       }
-      setLoading(false)
+      setLoading(false);
    };
 
    return (
@@ -134,7 +141,7 @@ export const Register = () => {
                               control={control}
                               name="course"
                               render={({ field: { onChange } }) => (
-                                 <Select name="course" onValueChange={onChange}>
+                                 <Select onValueChange={onChange}>
                                     <SelectTrigger className="w-full border-none bg-[#f5f5f5] text-base min-w-[410px] py-7 mt-2 focus:ring-0 focus:outline-1 focus:outline-brandColor-700 rounded">
                                        <SelectValue placeholder="Selecione um curso" />
                                     </SelectTrigger>
@@ -158,6 +165,7 @@ export const Register = () => {
                                           Gestão Empresarial
                                        </SelectItem>
                                     </SelectContent>
+                                    <TextInput.ErrorMessage field="course" />
                                  </Select>
                               )}
                            />
@@ -187,6 +195,7 @@ export const Register = () => {
                                        </SelectItem>
                                        <SelectItem value="EAD">EAD</SelectItem>
                                     </SelectContent>
+                                    <TextInput.ErrorMessage field="period" />
                                  </Select>
                               </label>
                            )}
