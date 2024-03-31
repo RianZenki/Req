@@ -27,3 +27,22 @@ export const translatedRequestTypes = {
    contractTemplates: "Modelos de Contratos",
    lockout: "Trancamento",
 }
+
+export interface IRequest {
+   id: string;
+   status: string;
+   tipo_pedidoId: number;
+   descricao: string;
+   criado_em: string;
+   encerrado_em?: string;
+   atualizado_em: string;
+   alunoId: string;
+   Aluno: {
+      curso: string;
+      nome: string;
+      ra: string;
+   };
+   tipo_pedido: {
+      tipo: string;
+   };
+}
