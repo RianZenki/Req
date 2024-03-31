@@ -67,18 +67,6 @@ export function DataTable<TData, TValue>({
       },
    });
 
-   const [requestStatus, setRequestStatus] = useState<RequestStatus>({
-      inProgress: false,
-      success: false,
-   });
-
-   const handleRequestStatusChange = (type: keyof RequestStatus): void => {
-      setRequestStatus((prevState) => ({
-         ...prevState,
-         [type]: !prevState[type],
-      }));
-   };
-
    const navigate = useNavigate();
 
    return (
@@ -88,10 +76,13 @@ export function DataTable<TData, TValue>({
                className="w-[250px] border rounded px-3 py-1.5 shadow-sm text-base focus:outline-none focus:ring-1 focus:ring-ring"
                placeholder="Pesquisar aluno..."
                value={
-                  (table.getColumn("studant")?.getFilterValue() as string) ?? ""
+                  (table.getColumn("Aluno_nome")?.getFilterValue() as string) ??
+                  ""
                }
                onChange={(event) =>
-                  table.getColumn("studant")?.setFilterValue(event.target.value)
+                  table
+                     .getColumn("Aluno_nome")
+                     ?.setFilterValue(event.target.value)
                }
             />
          </div>

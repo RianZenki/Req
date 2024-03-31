@@ -10,12 +10,13 @@ import {
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
+import api from "@/services/api";
 import { data } from "@/utils/fake-data";
 import { translatedRequestStatus } from "@/utils/request-status";
 import { translatedRequestTypes } from "@/utils/request-types";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { Plus } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface RequestTypes {
@@ -57,6 +58,7 @@ export const Home = () => {
       inProgress: false,
       success: false,
    });
+   const [requests, setRequests] = useState<any[]>();
    const { studant } = useAuth();
 
    const handleSelectedTypesChange = (type: keyof RequestTypes): void => {
@@ -74,6 +76,21 @@ export const Home = () => {
    };
 
    const navigate = useNavigate();
+
+   const getRequests = async () => {
+      try {
+         const response = await api.get(`/aluno/${studant?.id}/solicitacao`);
+         setRequests(response.data);
+      } catch (error: any) {
+         console.log(error.response);
+      }
+   };
+
+   useEffect(() => {
+      getRequests();
+   }, []);
+
+   console.log(requests);
 
    return (
       <div className="w-full max-w-[1600px] px-20 mx-auto mt-10">
@@ -94,7 +111,7 @@ export const Home = () => {
          </div>
 
          <div className="mt-12">
-            <div className="space-x-6 flex">
+            {/* <div className="space-x-6 flex">
                <input
                   className="w-[250px] border rounded px-3 py-1.5 shadow-sm text-base focus:outline-none focus:ring-1 focus:ring-ring"
                   placeholder="Pesquisar aluno..."
@@ -170,10 +187,10 @@ export const Home = () => {
                      </DropdownMenuContent>
                   </DropdownMenu>
                </div>
-            </div>
-            <p>{studant?.nome}</p>
+            </div> */}
             <div className="w-full py-8">
-               <DataTable columns={columns} data={data} />
+               {requests && <DataTable columns={columns} data={requests} />}
+               {!requests && <p>Loading...</p>}
             </div>
          </div>
       </div>

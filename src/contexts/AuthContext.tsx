@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 interface IStudant {
    email: string;
    nome: string;
+   id: number
 }
 
 interface IAuthContext {
@@ -52,7 +53,7 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
    ) => {
       setLoading(true);
       api.post("/auth/login", { email, senha: password })
-         .then((response) => {
+         .then((response: any) => {
             const data = response.data;
 
             if (data.token && response.status === 200) {
