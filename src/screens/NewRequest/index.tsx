@@ -11,10 +11,15 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import api from "@/services/api";
 import { requestTypes } from "@/utils/request-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import { translatedRequestType } from "@/utils/request-status";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const createNewRequestSchema = z.object({
    type: z.string({ required_error: "* Campo obrigatório" }).min(1),
@@ -29,9 +34,33 @@ export const NewRequest = () => {
    });
 
    const { handleSubmit, register, control } = createRequestForm;
+   const { studant } = useAuth();
+   const navigate = useNavigate();
 
-   const handleCreateRequest = (data: any) => {
-      console.log(data);
+   const handleCreateRequest = async ({
+      type,
+      description,
+   }: {
+      type: string;
+      description: string;
+   }) => {
+      try {
+         console.log(studant)
+         const response = await api.post("/solicitacao", {
+            tipo: translatedRequestType[
+               type as keyof typeof translatedRequestType
+            ],
+            descricao: description,
+            alunoId: studant?.id,
+         });
+         console.log(response)
+         toast.success(response.data.msg);
+         navigate("/home");
+      } catch (error: any) {
+         if (error) {
+            toast.error(error.response.data.msg);
+         }
+      }
    };
 
    return (
