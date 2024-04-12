@@ -1,6 +1,8 @@
+import { ComponentProps } from "react";
 import { useFormContext } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 
-interface ErrorMEssageProps {
+interface ErrorMEssageProps extends ComponentProps<'span'> {
    field: string;
 }
 
@@ -19,7 +21,7 @@ function get(obj: Record<any, any>, path: string) {
    return result;
 }
 
-export const ErrorMessage = ({ field }: ErrorMEssageProps) => {
+export const ErrorMessage = ({ field, ...rest }: ErrorMEssageProps) => {
    const {
       formState: { errors },
    } = useFormContext();
@@ -31,7 +33,7 @@ export const ErrorMessage = ({ field }: ErrorMEssageProps) => {
    }
 
    return (
-      <span className="text-xs text-red-500 mt-1 absolute top-0 right-0">
+      <span className={twMerge("text-xs text-red-500 mt-1 absolute top-0 right-0", rest.className)}>
          {fieldError.message?.toString()}
       </span>
    );

@@ -45,4 +45,11 @@ export interface IRequest {
    tipo_pedido: {
       tipo: string;
    };
+   Resposta: {
+      id: string
+      descricao: string;
+      criado_em: string;
+      criado_por: string;
+      cargo: string;
+   }[]
 }

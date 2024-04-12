@@ -1,6 +1,6 @@
+import { Button } from "@/components/Button";
 import { columns } from "@/components/RequestTable/columns";
 import { DataTable } from "@/components/RequestTable/data-table";
-import { Button } from "@/components/ui/button";
 import {
    DropdownMenu,
    DropdownMenuCheckboxItem,
@@ -90,8 +90,6 @@ export const Home = () => {
       getRequests();
    }, []);
 
-   console.log(requests);
-
    return (
       <div className="w-full max-w-[1600px] px-20 mx-auto mt-10">
          <div className="flex justify-between items-center">
@@ -101,13 +99,10 @@ export const Home = () => {
                   Aqui estão suas solicitações
                </p>
             </div>
-            <button
-               onClick={() => navigate("/nova-solicitacao")}
-               className="w-[200px] h-12 px-5 py-4 rounded bg-brandColor-700 text-white transition hover:bg-[#2672f9] flex items-center gap-2"
-            >
+            <Button onClick={() => navigate("/nova-solicitacao")}>
                <Plus size={24} color={"#FFF"} />
                Nova solicitação
-            </button>
+            </Button>
          </div>
 
          <div className="mt-12">

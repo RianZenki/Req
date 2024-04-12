@@ -20,6 +20,7 @@ import { translatedRequestType } from "@/utils/request-status";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/Button";
 
 const createNewRequestSchema = z.object({
    type: z.string({ required_error: "* Campo obrigatório" }).min(1),
@@ -45,7 +46,6 @@ export const NewRequest = () => {
       description: string;
    }) => {
       try {
-         console.log(studant)
          const response = await api.post("/solicitacao", {
             tipo: translatedRequestType[
                type as keyof typeof translatedRequestType
@@ -53,7 +53,6 @@ export const NewRequest = () => {
             descricao: description,
             alunoId: studant?.id,
          });
-         console.log(response)
          toast.success(response.data.msg);
          navigate("/home");
       } catch (error: any) {
@@ -114,7 +113,7 @@ export const NewRequest = () => {
                                     ))}
                                  </SelectGroup>
                               </SelectContent>
-                              <TextInput.ErrorMessage field="type" />
+                              <TextInput.ErrorMessage field="type" className="top-8" />
                            </Select>
                         )}
                      />
@@ -140,7 +139,7 @@ export const NewRequest = () => {
                         className="resize-none text-base bg-[#f5f5f5] focus-visible:ring-brandColor-700"
                         {...register("description")}
                      />
-                     <TextInput.ErrorMessage field="description" />
+                     <TextInput.ErrorMessage field="description" className="top-8" />
                   </section>
 
                   <Separator />
@@ -160,9 +159,9 @@ export const NewRequest = () => {
                      use-file-picker
                   </section>
 
-                  <button className="w-[200px] h-12 px-5 py-4 rounded bg-brandColor-700 text-white transition hover:bg-[#2672f9] flex items-center justify-center self-end">
+                  <Button className="self-end">
                      Enviar Solicitação
-                  </button>
+                  </Button>
                </form>
             </FormProvider>
          </div>
