@@ -51,10 +51,10 @@ export const Header = () => {
                      <CaretDown size={20} weight="bold" color={"#ffffff"} />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[200px] bg-brandColor-500 border-none">
-                     <DropdownMenuItem className="focus:bg-sky-700">
+                     <DropdownMenuItem className="focus:bg-sky-700 focus:text-white py-3.5 text-lg text-white" asChild>
                         <NavLink
                            to="/perfil"
-                           className="w-full cursor-pointer py-2 flex items-center gap-3 text-lg text-white"
+                           className="w-full cursor-pointer flex items-center gap-3"
                         >
                            <User size={24} />
                            Perfil
