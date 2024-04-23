@@ -65,7 +65,7 @@ export const NewRequest = () => {
    return (
       <div className="w-full max-w-[1600px] px-32 mx-auto mt-10 flex flex-col gap-6">
          <NavBar />
-         <div className="px-24 flex flex-col gap-4">
+         <div className="px-24 py-2 flex flex-col gap-4">
             <div>
                <h2 className="text-4xl font-bold mb-1">Nova solicitação</h2>
                <p className="text-muted-foreground">

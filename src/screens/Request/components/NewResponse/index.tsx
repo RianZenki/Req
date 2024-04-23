@@ -86,7 +86,7 @@ export const NewResponse = ({
                      className="resize-none text-base bg-[#f5f5f5] focus-visible:ring-brandColor-700"
                      {...register("description")}
                   />
-                  <TextInput.ErrorMessage field="description" />
+                  <TextInput.ErrorMessage field="description" className="top-8" />
                </section>
 
                <Separator />
@@ -106,13 +106,12 @@ export const NewResponse = ({
                </section>
 
                <div className="flex w-full gap-4 justify-end">
-                  <button
-                     type="button"
-                     className="p-4 border border-brandColor-700 text-brandColor-700 rounded h-[48px] flex items-center"
+                  <Button
+                     className="bg-transparent text-brandColor-700 w-[100px] hover:bg-transparent"
                      onClick={onHideForm}
                   >
                      Cancelar
-                  </button>
+                  </Button>
                   <Button>
                      {loading ? (
                         <>

@@ -9,6 +9,8 @@ import { NewResponse } from "./components/NewResponse";
 import { Button } from "@/components/Button";
 import { ResponseSection } from "./components/ResponseSection";
 import { IResponse } from "@/utils/response-types";
+import { toast } from "react-toastify";
+import { FinalizeButton } from "./components/FinalizeButton";
 
 export const Request = () => {
    const { id } = useParams();
@@ -22,7 +24,19 @@ export const Request = () => {
          setRequest(response.data);
          setResponses(response.data.Resposta);
       } catch (error: any) {
-         console.log(error.response);
+         toast.error(error.response.data.msg);
+      }
+   };
+
+   const handleFinalizeRequest = async () => {
+      try {
+         const response = await api.put(`/solicitacao/${id}`, {
+            status: "finalizado",
+         });
+         setRequest(response.data.solicitacao);
+         toast.success(response.data.msg);
+      } catch (error: any) {
+         toast.error(error.response.data.msg);
       }
    };
 
@@ -50,7 +64,7 @@ export const Request = () => {
          {!request && <p className="flex justify-center">Loading...</p>}
 
          {request && (
-            <div className="px-24 flex flex-col gap-4 mb-20 scroll-smooth">
+            <div className="px-24 py-2 flex flex-col gap-4 mb-20 scroll-smooth">
                <InfoSection request={request} />
 
                <Separator />
@@ -68,9 +82,14 @@ export const Request = () => {
                   />
                ) : (
                   request?.status !== "finalizado" && (
-                     <Button onClick={handleOpenResponseForm} className="mt-4">
-                        Nova resposta
-                     </Button>
+                     <div className="flex gap-6 mt-4">
+                        <Button onClick={handleOpenResponseForm}>
+                           Nova resposta
+                        </Button>
+                        <FinalizeButton
+                           onFinalizeRequest={handleFinalizeRequest}
+                        />
+                     </div>
                   )
                )}
             </div>

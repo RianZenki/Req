@@ -12,7 +12,6 @@ export const ResponseSection = ({
    request: IRequest;
    responses: IResponse[];
 }) => {
-
    return (
       <section className="flex flex-col w-full gap-5 my-10 justify-center items-center">
          <div className="flex gap-4 w-full">
@@ -43,7 +42,9 @@ export const ResponseSection = ({
             </div>
          </div>
 
-         {responses.length > 0 && <Separator orientation="vertical" className="h-6" />}
+         {responses.length > 0 && (
+            <Separator orientation="vertical" className="h-6" />
+         )}
 
          <div className="flex flex-col w-full gap-5 items-center">
             {request &&
@@ -69,13 +70,22 @@ export const ResponseSection = ({
                   }
                )}
 
-            {/* <Separator orientation="vertical" className="h-6" />
+            {request?.status === "finalizado" && (
+               <>
+                  <Separator orientation="vertical" className="h-6" />
 
-            <div className="px-4 py-2 shadow rounded bg-slate-400 text-white">
-               <p>
-                  Solicitação encerrada por Edinaldo Pereira em 08/10/2023 10:34
-               </p>
-            </div> */}
+                  <div className="px-4 py-2 shadow rounded bg-slate-400 text-white">
+                     <p className="text-sm font-light">
+                        <strong className="font-semibold">
+                           {"Ednaldo Pereira"}
+                        </strong>{" "}
+                        encerrou a solicitação em{" "}
+                        {getFormattedDate(request?.criado_em)}{" "}
+                        {getTimeFromDate(request?.criado_em)}
+                     </p>
+                  </div>
+               </>
+            )}
          </div>
       </section>
    );
