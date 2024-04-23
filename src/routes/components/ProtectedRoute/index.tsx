@@ -9,7 +9,7 @@ export function ProtectedRoute() {
    const storagedToken = localStorage.getItem("token");
 
    useEffect(() => {
-      if (!storagedToken) navigate("/")
+      if (!storagedToken) navigate("/");
    }, [storagedToken]);
 
    return loading ? <p>loading...</p> : <Outlet />;

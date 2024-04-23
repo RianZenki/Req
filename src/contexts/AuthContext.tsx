@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 interface IStudant {
    email: string;
    nome: string;
-   id: number
+   id: number;
 }
 
 interface IAuthContext {
@@ -28,7 +28,7 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
    const [isAuthenticated, setIsAuthenticated] = useState(false);
    const [studant, setStudant] = useState<IStudant | undefined>();
-   const [loading, setLoading] = useState(true);
+   const [loading, setIsLoading] = useState(true);
 
    useEffect(() => {
       function recuperarDadosArmazenados() {
@@ -40,12 +40,12 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
             setStudant(JSON.parse(storagedStudant));
             setIsAuthenticated(true);
-            setLoading(false);
+            setIsLoading(false);
          }
       }
 
       recuperarDadosArmazenados();
-   }, []);
+   }, [loading]);
 
    const handleLogin = (
       { email, password }: { email: string; password: string },
@@ -68,6 +68,7 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
                );
                localStorage.setItem("token", data.token);
                setLoading(false);
+               setIsLoading(false);
                navigate("/home");
             }
          })

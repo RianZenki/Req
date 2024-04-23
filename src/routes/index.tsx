@@ -4,9 +4,11 @@ import { Login } from "@/screens/Login";
 import { NewRequest } from "@/screens/NewRequest";
 import { Register } from "@/screens/Register";
 import { Request } from "@/screens/Request";
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Root } from "@/components/Root";
+import { Profile } from "@/screens/Profile";
+import { Dashboard } from "@/screens/Secretary/Dashboard";
 
 export const router = createBrowserRouter([
    {
@@ -38,6 +40,20 @@ export const router = createBrowserRouter([
                      {
                         path: "/solicitacao/:id",
                         element: <Request />,
+                     },
+                     {
+                        path: "/perfil",
+                        element: <Profile />,
+                     },
+                  ],
+               },
+               {
+                  element: <Outlet />,
+                  path: "/secretario",
+                  children: [
+                     {
+                        path: "/secretario/dashboard",
+                        element: <Dashboard />,
                      },
                   ],
                },
