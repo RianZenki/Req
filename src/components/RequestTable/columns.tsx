@@ -2,14 +2,6 @@ import { convertedRequestTypeId } from "@/utils/request-status";
 import { ColumnDef } from "@tanstack/react-table";
 import { RequestStatus } from "../RequestStatus";
 
-export interface Request {
-   id: string;
-   type: string;
-   requester: string;
-   createdAt: string;
-   status: "success" | "in progress";
-}
-
 export const columns: ColumnDef<any>[] = [
    {
       accessorKey: "tipo_pedidoId",
