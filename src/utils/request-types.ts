@@ -35,6 +35,7 @@ export interface IRequest {
    descricao: string;
    criado_em: string;
    encerrado_em?: string;
+   encerrado_por?: string;
    atualizado_em: string;
    alunoId: string;
    Aluno: {

@@ -72,14 +72,13 @@ export const StudantData = () => {
          setLoading(true);
          const response = await api.put(`aluno/${studant?.id}`, {
             nome: name,
-            cursro: course,
+            curso: course,
             turno: period,
             ra,
          });
          setLoading(false);
          toast.success(response.data.msg);
       } catch (error: any) {
-         console.log(error);
          setLoading(false);
          toast.error(error.response.error);
       }
