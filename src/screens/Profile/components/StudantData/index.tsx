@@ -1,6 +1,6 @@
 import { TextInput } from "@/components/TextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CaretRight, CircleNotch, Key, User } from "phosphor-react";
+import { CircleNotch, User } from "phosphor-react";
 import {
    Select,
    SelectContent,

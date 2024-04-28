@@ -13,7 +13,6 @@ import {
    DialogTrigger,
 } from "../ui/dialog";
 import { useState } from "react";
-import { Alert } from "../Alert";
 
 const createRecoveryFormSchema = z.object({
    recoveryEmail: z

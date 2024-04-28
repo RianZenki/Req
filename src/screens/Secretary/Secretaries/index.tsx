@@ -1,4 +1,3 @@
-import { NewSecreatyModal } from "@/components/NewSecretaryModal";
 import { columns } from "@/components/SecretaryTable/columns";
 import { DataTable } from "@/components/SecretaryTable/data-table";
 import { useSecretaryContext } from "@/contexts/SecretaryContext";
