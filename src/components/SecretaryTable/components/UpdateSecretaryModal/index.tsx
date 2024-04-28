@@ -1,14 +1,14 @@
 import { requestTypes } from "@/utils/request-types";
-import { Button } from "../Button";
 import {
    Dialog,
+   DialogClose,
    DialogContent,
    DialogDescription,
    DialogFooter,
    DialogHeader,
    DialogTitle,
    DialogTrigger,
-} from "../ui/dialog";
+} from "../../../ui/dialog";
 import { z } from "zod";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,13 +18,15 @@ import {
    SelectItem,
    SelectTrigger,
    SelectValue,
-} from "../ui/select";
-import { TextInput } from "../TextInput";
-import { Checkbox } from "../Checkbox";
+} from "../../../ui/select";
+import { TextInput } from "../../../TextInput";
+import { Checkbox } from "../../../Checkbox";
 import api from "@/services/api";
 import { translatedRequestType } from "@/utils/request-status";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import { useSecretaryContext } from "@/contexts/SecretaryContext";
+import { Button } from "@/components/Button";
 
 const createRegisterFormSchema = z.object({
    name: z.string().min(1, "* Campo obrigatório"),
@@ -32,7 +34,6 @@ const createRegisterFormSchema = z.object({
       .string()
       .min(1, "* Campo obrigatório")
       .email("* Digite um e-mail válido"),
-   password: z.string().min(8, "* Necessário pelo menos 8 caracteres"),
    nm: z.string().min(13, "* Campo obrigatório"),
    role: z.string({ required_error: "* Campo obrigatório" }).min(1),
    requestTypes: z
@@ -44,16 +45,21 @@ const createRegisterFormSchema = z.object({
 
 type createRegisterData = z.infer<typeof createRegisterFormSchema>;
 
-interface INewSecretary {
-   name: string;
+interface ISecretary {
+   nome: string;
    email: string;
-   password: string;
-   nm: string;
-   role: string;
-   requestTypes: string[];
+   numeroMatricula: string;
+   cargo: string;
+   tipo_pedido_secretario: {
+      tipo_pedido: {
+         tipo: string;
+      };
+   }[];
 }
 
-export const NewSecreatyModal = ({ isModalOpen, setIsModalOpen }: any) => {
+export const UpdateSecretaryModal = ({ id }: { id: string }) => {
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [secretary, setSecretary] = useState<ISecretary | undefined>();
    const createRegisterForm = useForm<createRegisterData>({
       resolver: zodResolver(createRegisterFormSchema),
    });
@@ -61,66 +67,81 @@ export const NewSecreatyModal = ({ isModalOpen, setIsModalOpen }: any) => {
    const { handleSubmit, control, setValue } = createRegisterForm;
    const { updateSecretaries } = useSecretaryContext();
 
-   const cleanUpForm = () => {
-      setValue("name", "");
-      setValue("email", "");
-      setValue("password", "");
-      setValue("nm", "");
-      setValue("role", "");
-      setValue("requestTypes", [""]);
-   };
-
-   const handleRegister = async ({
+   const handleUpdateSecreatry = async ({
       name,
       email,
-      password,
       nm,
       role,
       requestTypes,
-   }: INewSecretary) => {
+   }: any) => {
       try {
-         const response = await api.post("/secretario", {
+         const response = await api.put(`secretario/${id}`, {
             nome: name,
             email,
-            senha: password,
             numeroMatricula: nm,
             cargo: role,
             tipo_pedido: requestTypes.map(
-               (type) =>
+               (type: any) =>
                   translatedRequestType[
                      type as keyof typeof translatedRequestType
                   ]
             ),
          });
-
-         toast.success(response.data.msg);
          updateSecretaries(response.data.secretarios);
-         setIsModalOpen(false)
-         cleanUpForm();
+         toast.success(response.data.msg);
+         setIsModalOpen(false);
       } catch (error: any) {
-         toast.error(error.response.data.msg);
+         toast.error(error.response.msg);
       }
    };
+
+   const getSecretary = async () => {
+      try {
+         const response = await api.get(`/secretario/${id}`);
+         setSecretary(response.data);
+      } catch (error: any) {
+         console.log(error.response.msg);
+      }
+   };
+
+   useEffect(() => {
+      if (secretary) {
+         const requestTypes = secretary.tipo_pedido_secretario.map(
+            (type) => type.tipo_pedido.tipo
+         );
+
+         setValue("name", secretary.nome);
+         setValue("email", secretary.email);
+         setValue("nm", secretary.numeroMatricula);
+         setValue("role", secretary.cargo);
+         setValue("requestTypes", requestTypes as [string, ...string[]]);
+      }
+   }, [secretary]);
 
    return (
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
          <DialogTrigger asChild>
             <div>
-               <Button>Novo secretário</Button>
+               <Button
+                  onClick={getSecretary}
+                  className="w-fit h-9 px-4 py-2 text-sm"
+               >
+                  Detalhes
+               </Button>
             </div>
          </DialogTrigger>
          <DialogContent className="overflow-y-auto max-h-screen max-w-[700px]">
             <DialogHeader>
-               <DialogTitle>Cadastrar secretário</DialogTitle>
+               <DialogTitle>Dados do secretário</DialogTitle>
                <DialogDescription>
-                  Cadastre as informações de um novo secretário
+                  Visualize e atualize os dados do secretário
                </DialogDescription>
             </DialogHeader>
             <FormProvider {...createRegisterForm}>
                <form
                   className="flex flex-col"
                   id="secretaryForm"
-                  onSubmit={handleSubmit(handleRegister)}
+                  onSubmit={handleSubmit(handleUpdateSecreatry)}
                >
                   <TextInput.Root>
                      <TextInput.Label htmlFor="name">
@@ -142,25 +163,11 @@ export const NewSecreatyModal = ({ isModalOpen, setIsModalOpen }: any) => {
                            <TextInput.Input
                               name="email"
                               type="email"
-                              placeholder="joão@email.com"
+                              placeholder="aluno@email.com"
                               className="p-3"
                            />
                         </TextInput.Field>
                         <TextInput.ErrorMessage field="email" />
-                     </TextInput.Label>
-                  </TextInput.Root>
-                  <TextInput.Root>
-                     <TextInput.Label htmlFor="password">
-                        Senha
-                        <TextInput.Field>
-                           <TextInput.Input
-                              name="password"
-                              type="password"
-                              placeholder="*******"
-                              className="p-3"
-                           />
-                        </TextInput.Field>
-                        <TextInput.ErrorMessage field="password" />
                      </TextInput.Label>
                   </TextInput.Root>
 
@@ -183,10 +190,10 @@ export const NewSecreatyModal = ({ isModalOpen, setIsModalOpen }: any) => {
                      <Controller
                         control={control}
                         name="role"
-                        render={({ field: { onChange } }) => (
+                        render={({ field: { onChange, value } }) => (
                            <label htmlFor="role" className="text-base mb-1">
                               Cargo
-                              <Select onValueChange={onChange}>
+                              <Select onValueChange={onChange} value={value}>
                                  <SelectTrigger className="w-full border-none bg-[#f5f5f5] p-3 text-base min-w-[410px] py-7 mt-2 focus:ring-0 focus:outline-1 focus:outline-brandColor-700 rounded">
                                     <SelectValue placeholder="Selecione um cargo" />
                                  </SelectTrigger>
@@ -227,11 +234,21 @@ export const NewSecreatyModal = ({ isModalOpen, setIsModalOpen }: any) => {
                </form>
             </FormProvider>
             <DialogFooter className="mt-4">
-               <div>
-                  <Button type="submit" form="secretaryForm">
-                     Cadastrar
+               <DialogClose asChild>
+                  <Button
+                     variant="link"
+                     className="w-fit h-9 px-4 py-2 text-sm"
+                  >
+                     Cancelar
                   </Button>
-               </div>
+               </DialogClose>
+               <Button
+                  form="secretaryForm"
+                  type="submit"
+                  className="w-fit h-9 px-4 py-2 text-sm"
+               >
+                  Atualizar
+               </Button>
             </DialogFooter>
          </DialogContent>
       </Dialog>

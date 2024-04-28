@@ -1,36 +1,49 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { DeleteSecretaryModal } from "./components/DeleteSecretaryModal";
+import { UpdateSecretaryModal } from "./components/UpdateSecretaryModal";
+
+const roleFormatted = {
+   SECRETARIO: "Secretário",
+   SECRETARIO_GERAL: "Secretário geral",
+};
 
 export const columns: ColumnDef<any>[] = [
    {
       accessorKey: "numeroMatricula",
       header: "Id",
+      size: 300
    },
    {
       accessorKey: "nome",
       header: "Nome",
+      size: 300
    },
    {
       accessorKey: "email",
       header: "Email",
+      size: 300
+
    },
    {
       accessorKey: "cargo",
       header: "Cargo",
+      size: 200,
+
       cell: ({ row }) => {
          const role: string = row.getValue("cargo");
-
-         return <>{role.toLowerCase()}</>;
+         return <>{roleFormatted[role as keyof typeof roleFormatted]}</>;
       },
    },
    {
       id: "actions",
       header: "",
+      size: 100,
       cell: ({ row }) => {
-         const id = row.getValue("numeroMatricula");
+         const id: string = row.getValue("numeroMatricula");
          return (
-            <div>
-               <button onClick={() => console.log(id)}>Detalhes</button>
-               <button onClick={() => console.log(id)}>Deletar</button>
+            <div className="flex gap-4">
+               <UpdateSecretaryModal id={id} />
+               <DeleteSecretaryModal id={id} />
             </div>
          );
       },

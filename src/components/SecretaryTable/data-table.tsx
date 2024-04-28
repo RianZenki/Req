@@ -23,6 +23,7 @@ import {
    CaretRight,
 } from "phosphor-react";
 import { useState } from "react";
+import { NewSecreatyModal } from "../NewSecretaryModal";
 
 interface DataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[];
@@ -34,6 +35,7 @@ export function DataTable<TData, TValue>({
    data,
 }: DataTableProps<TData, TValue>) {
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+   const [isModalOpen, setIsModalOpen] = useState(false)
    const table = useReactTable({
       data,
       columns,
@@ -53,9 +55,9 @@ export function DataTable<TData, TValue>({
 
    return (
       <>
-         <div className="space-x-6 flex">
+         <div className="space-x-6 flex justify-between">
             <input
-               className="w-[250px] border rounded px-3 py-1.5 shadow-sm text-base focus:outline-none focus:ring-1 focus:ring-ring"
+               className="w-[300px] border rounded px-3 py-1.5 shadow-sm text-base focus:outline-none focus:ring-1 focus:ring-ring"
                placeholder="Pesquisar secretário..."
                value={
                   (table.getColumn("nome")?.getFilterValue() as string) ?? ""
@@ -64,9 +66,11 @@ export function DataTable<TData, TValue>({
                   table.getColumn("nome")?.setFilterValue(event.target.value)
                }
             />
+
+            <NewSecreatyModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
          </div>
 
-         <div className="rounded-md border">
+         <div className="rounded-md border mt-8">
             <Table>
                <TableHeader>
                   {table.getHeaderGroups().map((headerGroup) => (
