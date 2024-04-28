@@ -8,6 +8,7 @@ import { TextInput } from "@/components/TextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AccountRecoveryModal } from "@/components/AccountRecoveryModal";
 import { useAuth } from "@/contexts/AuthContext";
+import icon from '@/assets/icon.svg'
 
 const createLoginFormSchema = z.object({
    email: z
@@ -37,8 +38,8 @@ export const Login = () => {
       >
          <div className="py-12 px-16 border border-[#e9e9e9] rounded-lg bg-white flex flex-col items-center">
             <header className="flex flex-col items-center">
-               <p>Logo</p>
-               <h1 className="text-3xl font-bold mt-8">Req</h1>
+               <img src={icon} className="w-32" alt="Req icone" />
+               <h1 className="text-3xl font-bold mt-4">Req</h1>
                <h2 className="text-lg font-normal text-[#646464] mt-4">
                   Realize suas solicitações aqui!
                </h2>
