@@ -21,28 +21,16 @@ import {
    CaretDoubleRight,
    CaretLeft,
    CaretRight,
+   Plus,
 } from "phosphor-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {
-   DropdownMenu,
-   DropdownMenuCheckboxItem,
-   DropdownMenuContent,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-import { translatedRequestStatus } from "@/utils/request-status";
+import { Filters } from "./components/Filters";
+import { Button as BlueButton } from '@/components/Button'
 
 interface DataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[];
    data: TData[];
-}
-
-interface RequestStatus {
-   inProgress: boolean;
-   success: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -71,23 +59,17 @@ export function DataTable<TData, TValue>({
 
    return (
       <>
-         <div className="space-x-6 flex">
-            <input
-               className="w-[250px] border rounded px-3 py-1.5 shadow-sm text-base focus:outline-none focus:ring-1 focus:ring-ring"
-               placeholder="Pesquisar aluno..."
-               value={
-                  (table.getColumn("Aluno_nome")?.getFilterValue() as string) ??
-                  ""
-               }
-               onChange={(event) =>
-                  table
-                     .getColumn("Aluno_nome")
-                     ?.setFilterValue(event.target.value)
-               }
+         <div className="flex justify-between">
+            <Filters
+               columnFilters={columnFilters}
+               setColumnFilters={setColumnFilters}
             />
+            <BlueButton onClick={() => navigate("/nova-solicitacao")}>
+               <Plus size={24} color={"#FFF"} />
+               Nova solicitação
+            </BlueButton>
          </div>
-
-         <div className="rounded-md border">
+         <div className="rounded-md border mt-5">
             <Table>
                <TableHeader>
                   {table.getHeaderGroups().map((headerGroup) => (

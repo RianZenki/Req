@@ -1,4 +1,6 @@
-import { convertedRequestTypeId } from "@/utils/request-status";
+import {
+   convertedRequestTypeId,
+} from "@/utils/request-status";
 import { ColumnDef } from "@tanstack/react-table";
 import { RequestStatus } from "../RequestStatus";
 
@@ -7,6 +9,14 @@ export const columns: ColumnDef<any>[] = [
       accessorKey: "tipo_pedidoId",
       header: "Tipo da solicitação",
       size: 600,
+      enableColumnFilter: true,
+      filterFn: (row, columnId, filterTypes) => {
+         if (filterTypes.length === 0) return true;
+         const type = row.getValue(columnId);
+         return filterTypes.includes(
+            convertedRequestTypeId[type as keyof typeof convertedRequestTypeId]
+         );
+      },
       cell: ({ row }) => {
          const requestType = row.getValue("tipo_pedidoId");
          return (
@@ -19,11 +29,6 @@ export const columns: ColumnDef<any>[] = [
             </>
          );
       },
-   },
-   {
-      accessorKey: "Aluno.nome",
-      header: "Aluno",
-      size: 500,
    },
    {
       accessorKey: "criado_em",
@@ -42,6 +47,14 @@ export const columns: ColumnDef<any>[] = [
       accessorKey: "status",
       header: "Status",
       size: 200,
+      enableColumnFilter: true,
+      filterFn: (row, columnId, filterStatus) => {
+         if (filterStatus.length === 0) return true;
+         const status: string = row.getValue(columnId);
+         return filterStatus.includes(
+            status.charAt(0).toUpperCase() + status.slice(1)
+         );
+      },
       cell: ({ row }) => {
          const status: string = row.getValue("status");
 
