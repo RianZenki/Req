@@ -77,7 +77,7 @@ export const ResponseSection = ({
                   <div className="px-4 py-2 shadow rounded bg-slate-400 text-white">
                      <p className="text-sm font-light">
                         <strong className="font-semibold">
-                           {"Ednaldo Pereira"}
+                           {request?.encerrado_por}
                         </strong>{" "}
                         encerrou a solicitação em{" "}
                         {getFormattedDate(request?.criado_em)}{" "}

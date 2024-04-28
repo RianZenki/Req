@@ -3,6 +3,7 @@ import { TextInput } from "@/components/TextInput";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSecretaryContext } from "@/contexts/SecretaryContext";
 import api from "@/services/api";
 import { IResponse } from "@/utils/response-types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +33,8 @@ export const NewResponse = ({
    });
    const { id } = useParams();
    const { studant } = useAuth();
+   const { secretary } = useSecretaryContext();
+   const user = studant ?? secretary;
 
    const { handleSubmit, register } = createResponseForm;
    const handleCreateResponse = async ({
@@ -43,10 +46,10 @@ export const NewResponse = ({
          setLoading(true);
          const response = await api.post("/resposta", {
             descricao: description,
-            cargo: "ALUNO",
-            criadoPor: studant?.nome,
+            cargo: user.cargo || "ALUNO",
+            criadoPor: user.nome,
             solicitacaoId: id,
-            usuarioId: studant?.id,
+            usuarioId: user.id,
          });
 
          setLoading(false);
@@ -77,16 +80,19 @@ export const NewResponse = ({
                      Descrição
                   </label>
                   <p className="text-muted-foreground text-sm mb-3">
-                     Infome a descrição e dados adicionais sobre a solicitação
+                     Infome a descrição e dados adicionais sobre a resposta
                   </p>
                   <Textarea
                      id="description"
-                     placeholder="Informe a descrição da solicitação"
+                     placeholder="Informe a descrição da resposta"
                      rows={6}
                      className="resize-none text-base bg-[#f5f5f5] focus-visible:ring-brandColor-700"
                      {...register("description")}
                   />
-                  <TextInput.ErrorMessage field="description" className="top-8" />
+                  <TextInput.ErrorMessage
+                     field="description"
+                     className="top-8"
+                  />
                </section>
 
                <Separator />
@@ -99,7 +105,7 @@ export const NewResponse = ({
                      Anexar arquivo
                   </label>
                   <p className="text-muted-foreground text-sm mb-3">
-                     Anexe arquivos necessários para a realização da solicitação
+                     Anexe arquivos necessários para a realização da resposta
                   </p>
                   <input type="file" name="" id="" />
                   use-file-picker
@@ -107,7 +113,8 @@ export const NewResponse = ({
 
                <div className="flex w-full gap-4 justify-end">
                   <Button
-                     className="bg-transparent text-brandColor-700 w-[100px] hover:bg-transparent"
+                     variant="link"
+                     className=" w-[100px]"
                      onClick={onHideForm}
                   >
                      Cancelar

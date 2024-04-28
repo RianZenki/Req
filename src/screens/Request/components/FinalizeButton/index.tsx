@@ -34,7 +34,9 @@ export const FinalizeButton = ({
                </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-               <AlertDialogCancel>Cancelar</AlertDialogCancel>
+               <AlertDialogCancel className="border-none hover:bg-transparent hover:text-brandColor-700 text-brandColor-700 shadow-none">
+                  Cancelar
+               </AlertDialogCancel>
                <AlertDialogAction
                   onClick={onFinalizeRequest}
                   className="bg-brandColor-700 hover:bg-[#2672f9]"
