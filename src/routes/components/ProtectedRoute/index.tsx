@@ -7,10 +7,11 @@ export function ProtectedRoute() {
    const navigate = useNavigate();
 
    const storagedToken = localStorage.getItem("token");
+   const storagedStudant = localStorage.getItem("studant");
 
    useEffect(() => {
-      if (!storagedToken) navigate("/");
-   }, [storagedToken]);
+      if (!storagedToken || !storagedStudant) navigate("/");
+   }, [storagedToken, storagedStudant]);
 
    return loading ? <p>loading...</p> : <Outlet />;
 }
