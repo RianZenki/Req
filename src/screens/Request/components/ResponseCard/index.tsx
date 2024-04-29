@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getFormattedDate, getTimeFromDate } from "@/utils/formattedDate";
-import userIcon from "@/assets/user-circle-solid.svg";
+import userIcon from "@/assets/user.svg";
 
 export const ResponseCard = ({
    description,
@@ -22,7 +22,7 @@ export const ResponseCard = ({
          }`}
       >
          <Avatar className="size-9">
-            <AvatarImage className="bg-white border-none" src={userIcon} />
+            <AvatarImage className="bg-white scale-110" src={userIcon} />
             <AvatarFallback>CN</AvatarFallback>
          </Avatar>
          <div className="w-full rounded shadow">

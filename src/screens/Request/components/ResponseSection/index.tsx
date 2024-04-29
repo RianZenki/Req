@@ -5,7 +5,7 @@ import { IRequest } from "@/utils/request-types";
 import { ResponseCard } from "../ResponseCard";
 import { IResponse } from "@/utils/response-types";
 
-import userIcon from "@/assets/user-circle-solid.svg";
+import userIcon from "@/assets/user.svg";
 
 export const ResponseSection = ({
    request,
@@ -18,7 +18,7 @@ export const ResponseSection = ({
       <section className="flex flex-col w-full gap-5 my-10 justify-center items-center">
          <div className="flex gap-4 w-full">
             <Avatar className="size-9">
-               <AvatarImage className="bg-white border-none" src={userIcon} />
+               <AvatarImage className="bg-white scale-110" src={userIcon} />
                <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="w-full rounded shadow">
