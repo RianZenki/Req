@@ -9,6 +9,7 @@ import {
 } from "../ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logo.svg";
+import userIcon from "@/assets/user-circle-solid.svg";
 
 export const Header = () => {
    const { handleLogout, studant } = useAuth();
@@ -43,7 +44,7 @@ export const Header = () => {
                <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center py-5 text-white cursor-pointer gap-2 focus:outline-none">
                      <Avatar className="size-9">
-                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarImage className="bg-white border-none" src={userIcon} />
                         <AvatarFallback>CN</AvatarFallback>
                      </Avatar>
                      <p className="text-ellipsis text-xl text-nowrap overflow-hidden max-w-[150px] text-white">

@@ -9,6 +9,7 @@ import {
    DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import logo from "@/assets/logo.svg";
+import userIcon from "@/assets/user-circle-solid.svg";
 
 export const SideHeader = () => {
    const { secretary, handleLogout } = useSecretaryContext();
@@ -78,7 +79,7 @@ export const SideHeader = () => {
             <DropdownMenu>
                <DropdownMenuTrigger className="flex items-center justify-center py-5 text-white cursor-pointer gap-4 focus:outline-none border-t border-t-blue-400">
                   <Avatar className="size-9">
-                     <AvatarImage src="https://github.com/shadcn.png" />
+                     <AvatarImage className="bg-white border-none" src={userIcon} />
                      <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   <p className="text-ellipsis text-xl text-nowrap overflow-hidden max-w-[150px] text-left flex-1 text-white">
