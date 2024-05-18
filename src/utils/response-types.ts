@@ -7,4 +7,11 @@ export interface IResponse {
    cargo: string;
    secretarioId?: string;
    alunoId?: string;
+   arquivo: {
+      nome: string
+      responseId: string
+      url: string
+      tamanho: number
+      extensao: string
+   }[]
 }

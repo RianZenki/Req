@@ -53,4 +53,11 @@ export interface IRequest {
       criado_por: string;
       cargo: string;
    }[]
+   Arquivo: {
+      id: string
+      nome: string,
+      url: string,
+      tamanho: number,
+      extensao: string
+   }[]
 }

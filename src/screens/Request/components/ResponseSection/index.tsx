@@ -6,6 +6,9 @@ import { ResponseCard } from "../ResponseCard";
 import { IResponse } from "@/utils/response-types";
 
 import userIcon from "@/assets/user.svg";
+import { FileList } from "@/components/FileList";
+import { useState } from "react";
+import { filesize } from "filesize";
 
 export const ResponseSection = ({
    request,
@@ -14,6 +17,33 @@ export const ResponseSection = ({
    request: IRequest;
    responses: IResponse[];
 }) => {
+   const [files, _] = useState(() => {
+      return request?.Arquivo.map((file) => ({
+         id: file.id,
+         name: file.nome,
+         extension: file.extensao,
+         readableSize: filesize(file.tamanho),
+         url: file.url,
+      }));
+   });
+
+   const handleDownload = (fileURL: string, fileName: string) => {
+      fetch(fileURL)
+         .then((response) => response.blob())
+         .then((blob) => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = fileName || "downloaded-file";
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+         });
+   };
+
    return (
       <section className="flex flex-col w-full gap-5 my-10 justify-center items-center">
          <div className="flex gap-4 w-full">
@@ -33,12 +63,12 @@ export const ResponseSection = ({
                      </p>
                   )}
                </header>
-               <div className="flex flex-col gap-4 px-2 py-4">
+               <div className="flex flex-col gap-2 px-4 py-4">
                   <main>
                      <p>{request?.descricao}</p>
                   </main>
                   <footer>
-                     <p>Imagem</p>
+                     <FileList files={files} onDownloadFile={handleDownload} />
                   </footer>
                </div>
             </div>
@@ -51,7 +81,10 @@ export const ResponseSection = ({
          <div className="flex flex-col w-full gap-5 items-center">
             {request &&
                responses.map(
-                  ({ descricao, criado_em, criado_por, cargo, id }, index) => {
+                  (
+                     { descricao, criado_em, criado_por, cargo, id, arquivo },
+                     index
+                  ) => {
                      return (
                         <>
                            <ResponseCard
@@ -60,6 +93,7 @@ export const ResponseSection = ({
                               createdAt={criado_em}
                               createdBy={criado_por}
                               role={cargo}
+                              files={arquivo}
                            />
                            {responses.length !== index + 1 ? (
                               <Separator

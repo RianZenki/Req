@@ -1,5 +1,7 @@
 import { Button } from "@/components/Button";
+import { FileList } from "@/components/FileList";
 import { TextInput } from "@/components/TextInput";
+import { UploadInput } from "@/components/UploadInput";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,6 +9,8 @@ import { useSecretaryContext } from "@/contexts/SecretaryContext";
 import api from "@/services/api";
 import { IResponse } from "@/utils/response-types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { filesize } from "filesize";
+import { uniqueId } from "lodash";
 import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -28,6 +32,7 @@ export const NewResponse = ({
    onUpdateResponses: (response: IResponse) => void;
 }) => {
    const [loading, setLoading] = useState(false);
+   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
    const createResponseForm = useForm<createNewResponseData>({
       resolver: zodResolver(createNewResponseSchema),
    });
@@ -37,24 +42,31 @@ export const NewResponse = ({
    const user = studant ?? secretary;
 
    const { handleSubmit, register } = createResponseForm;
+
    const handleCreateResponse = async ({
       description,
    }: {
       description: string;
    }) => {
       try {
+         const formData = new FormData();
          setLoading(true);
-         const response = await api.post("/resposta", {
-            descricao: description,
-            cargo: user.cargo || "ALUNO",
-            criadoPor: user.nome,
-            solicitacaoId: id,
-            usuarioId: user.id,
+
+         formData.append("descricao", description);
+         formData.append("cargo", user.cargo || "ALUNO");
+         formData.append("criadoPor", user.nome);
+         formData.append("solicitacaoId", id!);
+         formData.append("usuarioId", user.id);
+
+         uploadedFiles.forEach((file: any) => {
+            formData.append("file", file.file);
          });
+
+         const response = await api.post("/resposta", formData);
 
          setLoading(false);
          onHideForm();
-         onUpdateResponses(response.data.resposta);
+         onUpdateResponses(response.data.updatedResponse);
          toast.success(response.data.msg);
       } catch (error: any) {
          if (error) {
@@ -62,6 +74,25 @@ export const NewResponse = ({
             toast.error(error.response.data.msg);
          }
       }
+   };
+
+   const handleUpload = (files: any) => {
+      const uploadedFiles = files.map((file: any) => ({
+         file,
+         id: uniqueId(),
+         name: file.name,
+         readableSize: filesize(file.size),
+         extension: file.name.split(".").pop(),
+      }));
+
+      setUploadedFiles((prev: any[]) => {
+         return [...prev, ...uploadedFiles];
+      });
+   };
+
+   const handleRemoveFile = (fileId: string, files: any[]) => {
+      const filteredFiles = files.filter((file) => file.id !== fileId);
+      setUploadedFiles(filteredFiles);
    };
 
    return (
@@ -98,17 +129,19 @@ export const NewResponse = ({
                <Separator />
 
                <section>
-                  <label
-                     htmlFor=""
-                     className="inline-block font-semibold text-2xl"
-                  >
+                  <label className="inline-block font-semibold text-2xl">
                      Anexar arquivo
                   </label>
                   <p className="text-muted-foreground text-sm mb-3">
                      Anexe arquivos necessários para a realização da resposta
                   </p>
-                  <input type="file" name="" id="" />
-                  use-file-picker
+                  <UploadInput onUpload={handleUpload} />
+                  {!!uploadedFiles.length && (
+                     <FileList
+                        files={uploadedFiles}
+                        onRemoveFile={handleRemoveFile}
+                     />
+                  )}
                </section>
 
                <div className="flex w-full gap-4 justify-end">

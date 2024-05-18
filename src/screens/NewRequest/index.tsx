@@ -21,10 +21,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/Button";
+import { UploadInput } from "@/components/UploadInput";
+import { FileList } from "@/components/FileList";
+import { useState } from "react";
+import { uniqueId } from "lodash";
+import { filesize } from "filesize";
 
 const createNewRequestSchema = z.object({
    type: z.string({ required_error: "* Campo obrigatório" }).min(1),
    description: z.string().min(1, "* Campo obrigatório"),
+   files: z.any().optional(),
 });
 
 type createNewRequestData = z.infer<typeof createNewRequestSchema>;
@@ -35,6 +41,7 @@ export const NewRequest = () => {
    });
 
    const { handleSubmit, register, control } = createRequestForm;
+   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
    const { studant } = useAuth();
    const navigate = useNavigate();
 
@@ -46,13 +53,22 @@ export const NewRequest = () => {
       description: string;
    }) => {
       try {
-         const response = await api.post("/solicitacao", {
-            tipo: translatedRequestType[
-               type as keyof typeof translatedRequestType
-            ],
-            descricao: description,
-            alunoId: studant?.id,
+         const formData = new FormData();
+         const typeId =
+            translatedRequestType[type as keyof typeof translatedRequestType];
+
+         if (!studant) throw "Erro";
+
+         formData.append("tipo", typeId.toString());
+         formData.append("alunoId", studant?.id.toString());
+         formData.append("descricao", description);
+
+         uploadedFiles.forEach((file: any) => {
+            formData.append("file", file.file);
          });
+
+         const response = await api.post("/solicitacao", formData);
+
          toast.success(response.data.msg);
          navigate("/home");
       } catch (error: any) {
@@ -62,10 +78,29 @@ export const NewRequest = () => {
       }
    };
 
+   const handleUpload = (files: any) => {
+      const uploadedFiles = files.map((file: any) => ({
+         file,
+         id: uniqueId(),
+         name: file.name,
+         readableSize: filesize(file.size),
+         extension: file.name.split(".").pop(),
+      }));
+
+      setUploadedFiles((prev: any[]) => {
+         return [...prev, ...uploadedFiles];
+      });
+   };
+
+   const handleRemoveFile = (fileId: string, files: any[]) => {
+      const filteredFiles = files.filter((file) => file.id !== fileId);
+      setUploadedFiles(filteredFiles);
+   };
+
    return (
       <div className="w-full max-w-[1600px] px-32 mx-auto mt-10 flex flex-col gap-6">
          <NavBar />
-         <div className="px-24 py-2 flex flex-col gap-4">
+         <div className="px-24 py-4 flex flex-col gap-4">
             <div>
                <h2 className="text-4xl font-bold mb-1">Nova solicitação</h2>
                <p className="text-muted-foreground">
@@ -113,7 +148,10 @@ export const NewRequest = () => {
                                     ))}
                                  </SelectGroup>
                               </SelectContent>
-                              <TextInput.ErrorMessage field="type" className="top-8" />
+                              <TextInput.ErrorMessage
+                                 field="type"
+                                 className="top-8"
+                              />
                            </Select>
                         )}
                      />
@@ -139,29 +177,32 @@ export const NewRequest = () => {
                         className="resize-none text-base bg-[#f5f5f5] focus-visible:ring-brandColor-700"
                         {...register("description")}
                      />
-                     <TextInput.ErrorMessage field="description" className="top-8" />
+                     <TextInput.ErrorMessage
+                        field="description"
+                        className="top-8"
+                     />
                   </section>
 
                   <Separator />
 
                   <section>
-                     <label
-                        htmlFor=""
-                        className="inline-block font-semibold text-2xl"
-                     >
+                     <label className="inline-block font-semibold text-2xl">
                         Anexar arquivo
                      </label>
                      <p className="text-muted-foreground text-sm mb-3">
                         Anexe arquivos necessários para a realização da
                         solicitação
                      </p>
-                     <input type="file" name="" id="" />
-                     use-file-picker
+                     <UploadInput onUpload={handleUpload} />
+                     {!!uploadedFiles.length && (
+                        <FileList
+                           files={uploadedFiles}
+                           onRemoveFile={handleRemoveFile}
+                        />
+                     )}
                   </section>
 
-                  <Button className="self-end">
-                     Enviar Solicitação
-                  </Button>
+                  <Button className="self-end">Enviar Solicitação</Button>
                </form>
             </FormProvider>
          </div>
