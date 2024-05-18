@@ -6,7 +6,7 @@ import { z } from "zod";
 import { TextInput } from "@/components/TextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSecretaryContext } from "@/contexts/SecretaryContext";
-import icon from "@/assets/icon.svg";
+import icon from "/icon.svg";
 
 const createLoginFormSchema = z.object({
    email: z

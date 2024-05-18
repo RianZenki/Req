@@ -8,7 +8,7 @@ import { TextInput } from "@/components/TextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AccountRecoveryModal } from "@/components/AccountRecoveryModal";
 import { useAuth } from "@/contexts/AuthContext";
-import icon from '@/assets/icon.svg'
+import icon from '/icon.svg'
 
 const createLoginFormSchema = z.object({
    email: z
