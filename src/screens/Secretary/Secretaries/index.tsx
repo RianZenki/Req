@@ -6,7 +6,7 @@ export const Secretaries = () => {
    const { secretaries } = useSecretaryContext();
 
    return (
-      <div className="w-full max-w-[1600px] px-20 mx-auto mt-10">
+      <div className="w-full max-w-[1600px] px-20 mx-auto mt-8">
          <div className="flex justify-between items-center">
             <div>
                <h2 className="text-4xl font-bold mb-1">Secretários</h2>
@@ -15,7 +15,7 @@ export const Secretaries = () => {
                </p>
             </div>
          </div>
-         <div className="w-full py-12">
+         <div className="w-full py-10">
             <DataTable columns={columns} data={secretaries} />
          </div>
       </div>

@@ -93,7 +93,7 @@ export const Register = () => {
             </Link>
 
             <div className="my-10 pl-10">
-               <h1 className="text-3xl bold mb-2">Cadastro</h1>
+               <h1 className="text-3xl font-bold mb-2">Cadastro</h1>
                <h2 className="text-lg  font-normal text-[#646464]">
                   Crie seu cadastro para realizar suas solicitações
                </h2>

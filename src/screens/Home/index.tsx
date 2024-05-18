@@ -32,7 +32,7 @@ export const Home = () => {
             </div>
          </div>
 
-         <div className="mt-12">
+         <div className="mt-10">
             <div className="w-full">
                <DataTable columns={columns} data={requests} />
             </div>
