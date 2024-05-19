@@ -23,7 +23,7 @@ export const ResponseCard = ({
          id: file.id,
          name: file.nome,
          extension: file.extensao,
-         readableSize: filesize(file.tamanho),
+         size: filesize(file.tamanho),
          url: file.url,
       }));
    });

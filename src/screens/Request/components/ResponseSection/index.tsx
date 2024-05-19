@@ -9,6 +9,7 @@ import userIcon from "@/assets/user.svg";
 import { FileList } from "@/components/FileList";
 import { useState } from "react";
 import { filesize } from "filesize";
+import { IUploadedFile } from "@/utils/file-types";
 
 export const ResponseSection = ({
    request,
@@ -17,12 +18,12 @@ export const ResponseSection = ({
    request: IRequest;
    responses: IResponse[];
 }) => {
-   const [files, _] = useState(() => {
+   const [files, _] = useState<IUploadedFile[]>(() => {
       return request?.Arquivo.map((file) => ({
          id: file.id,
          name: file.nome,
          extension: file.extensao,
-         readableSize: filesize(file.tamanho),
+         size: filesize(file.tamanho),
          url: file.url,
       }));
    });

@@ -81,7 +81,7 @@ export const NewResponse = ({
          file,
          id: uniqueId(),
          name: file.name,
-         readableSize: filesize(file.size),
+         size: filesize(file.size),
          extension: file.name.split(".").pop(),
       }));
 

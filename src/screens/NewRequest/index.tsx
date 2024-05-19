@@ -26,6 +26,7 @@ import { FileList } from "@/components/FileList";
 import { useState } from "react";
 import { uniqueId } from "lodash";
 import { filesize } from "filesize";
+import { IUploadedFile } from "@/utils/file-types";
 
 const createNewRequestSchema = z.object({
    type: z.string({ required_error: "* Campo obrigatório" }).min(1),
@@ -41,7 +42,7 @@ export const NewRequest = () => {
    });
 
    const { handleSubmit, register, control } = createRequestForm;
-   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
+   const [uploadedFiles, setUploadedFiles] = useState<IUploadedFile[]>([]);
    const { studant } = useAuth();
    const navigate = useNavigate();
 
@@ -63,8 +64,8 @@ export const NewRequest = () => {
          formData.append("alunoId", studant?.id.toString());
          formData.append("descricao", description);
 
-         uploadedFiles.forEach((file: any) => {
-            formData.append("file", file.file);
+         uploadedFiles.forEach((file) => {
+            formData.append("file", file.file!);
          });
 
          const response = await api.post("/solicitacao", formData);
@@ -78,12 +79,12 @@ export const NewRequest = () => {
       }
    };
 
-   const handleUpload = (files: any) => {
-      const uploadedFiles = files.map((file: any) => ({
+   const handleUpload = (files: IUploadedFile[]) => {
+      const uploadedFiles = files.map((file) => ({
          file,
          id: uniqueId(),
          name: file.name,
-         readableSize: filesize(file.size),
+         size: filesize(file.size),
          extension: file.name.split(".").pop(),
       }));
 
@@ -92,7 +93,7 @@ export const NewRequest = () => {
       });
    };
 
-   const handleRemoveFile = (fileId: string, files: any[]) => {
+   const handleRemoveFile = (fileId: string, files: IUploadedFile[]) => {
       const filteredFiles = files.filter((file) => file.id !== fileId);
       setUploadedFiles(filteredFiles);
    };

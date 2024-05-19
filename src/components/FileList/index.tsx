@@ -1,3 +1,4 @@
+import { IUploadedFile } from "@/utils/file-types";
 import { FileIcon, defaultStyles } from "react-file-icon";
 
 export const FileList = ({
@@ -5,8 +6,8 @@ export const FileList = ({
    onRemoveFile,
    onDownloadFile,
 }: {
-   files: any[];
-   onRemoveFile?: (fileId: string, files: any[]) => void;
+   files: IUploadedFile[];
+   onRemoveFile?: (fileId: string, files: IUploadedFile[]) => void;
    onDownloadFile?: (fileURL: string, fileName: string) => void;
 }) => {
    return (
@@ -19,7 +20,7 @@ export const FileList = ({
                }`}
                onClick={
                   onDownloadFile
-                     ? () => onDownloadFile(file.url, file.name)
+                     ? () => onDownloadFile(file.url!, file.name)
                      : () => {}
                }
             >
@@ -35,7 +36,7 @@ export const FileList = ({
                      {file.name}
                   </strong>
                   <span className="text-sm text-gray-400">
-                     {file.readableSize}
+                     {file.size}
                      {onRemoveFile && (
                         <button
                            type="button"
