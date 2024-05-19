@@ -1,10 +1,12 @@
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { useAuth } from "@/contexts/AuthContext";
+import api from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleNotch, Key } from "phosphor-react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 const createChangePasswordFormSchema = z
@@ -30,11 +32,29 @@ export const ChangePassword = () => {
       resolver: zodResolver(createChangePasswordFormSchema),
    });
 
-   const handleChangePassword = (data: any) => {
-      console.log(data);
+   const { handleSubmit, setValue } = createChangePasswordForm;
+
+   const resetInputs = () => {
+      setValue("password", "");
+      setValue("confirmPassword", "");
+      setValue("newPassword", "");
    };
 
-   const { handleSubmit } = createChangePasswordForm;
+   const handleChangePassword = async (data: createChangePasswordData) => {
+      setLoading(true);
+      try {
+         const response = await api.post("/auth/alterar-senha", {
+            senha: data.newPassword,
+            senhaAntiga: data.password,
+            alunoId: studant?.id,
+         });
+         toast.success(response.data.msg);
+         resetInputs();
+      } catch (error: any) {
+         toast.error(error.response.data.msg);
+      }
+      setLoading(false);
+   };
 
    return (
       <>

@@ -138,7 +138,7 @@ export const StudantData = () => {
                   </TextInput.Label>
                </TextInput.Root>
 
-               <div className="w-full flex gap-11">
+               <div className="w-full grid gap-11 grid-cols-[2fr,1fr,1fr]">
                   <div className="flex flex-col flex-1 relative">
                      <label htmlFor="course" className="text-base mb-1">
                         Curso
@@ -147,7 +147,7 @@ export const StudantData = () => {
                            name="course"
                            render={({ field: { onChange, value } }) => (
                               <Select onValueChange={onChange} value={value}>
-                                 <SelectTrigger className="w-full border-none bg-white text-base min-w-[380px] py-7 mt-2 focus:ring-0 focus:outline-1 focus:outline-brandColor-700 rounded">
+                                 <SelectTrigger className="w-full border-none bg-white text-base py-7 mt-2 focus:ring-0 focus:outline-1 focus:outline-brandColor-700 rounded">
                                     <SelectValue placeholder="Selecione um curso" />
                                  </SelectTrigger>
                                  <SelectContent>
@@ -185,7 +185,7 @@ export const StudantData = () => {
                            <label htmlFor="period">
                               Turno
                               <Select onValueChange={onChange} value={value}>
-                                 <SelectTrigger className="w-full border-none bg-white text-base min-w-[200px] py-7 mt-2 focus:ring-0 focus:outline-1 focus:outline-brandColor-700 rounded">
+                                 <SelectTrigger className="w-full border-none bg-white text-base py-7 mt-2 focus:ring-0 focus:outline-1 focus:outline-brandColor-700 rounded">
                                     <SelectValue placeholder="Selecione o turno" />
                                  </SelectTrigger>
                                  <SelectContent>
