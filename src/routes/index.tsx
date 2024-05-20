@@ -16,6 +16,7 @@ import { SideHeader } from "@/components/SideHeader";
 import { Home as SecretaryHome } from "@/screens/Secretary/Home";
 import { Secretaries } from "@/screens/Secretary/Secretaries";
 import { Request as SecretaryRequest } from "@/screens/Secretary/Request";
+import { NewPassword } from "@/screens/NewPassword";
 
 export const router = createBrowserRouter([
    {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
          {
             path: "/cadastro",
             element: <Register />,
+         },
+         {
+            path: "/nova-senha",
+            element: <NewPassword />,
          },
          {
             element: <ProtectedRoute />,

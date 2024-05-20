@@ -13,6 +13,8 @@ import {
    DialogTrigger,
 } from "../ui/dialog";
 import { useState } from "react";
+import api from "@/services/api";
+import { toast } from "react-toastify";
 
 const createRecoveryFormSchema = z.object({
    recoveryEmail: z
@@ -32,8 +34,15 @@ export const AccountRecoveryModal = () => {
 
    const { handleSubmit } = createLoginForm;
 
-   const handleRecovery = (data: createRecoveryData) => {
-      console.log(data);
+   const handleRecovery = async (data: createRecoveryData) => {
+      setIsLoading(true);
+      try {
+         const response = await api.post("auth/esqueci-senha", data);
+         toast.success(response.data.msg);
+      } catch (error: any) {
+         toast.error(error.response.data.msg);
+      }
+      setIsLoading(false);
    };
 
    return (
