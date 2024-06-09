@@ -26,10 +26,18 @@ const SecretaryContext = createContext<ISecretaryContext>(
    {} as ISecretaryContext
 );
 
+interface ISecretary {
+   id: string;
+   numeroMatricula: string;
+   nome: string;
+   email: string;
+   cargo: string;
+}
+
 const SecretaryProvider = ({ children }: { children: ReactElement }) => {
    const [isAuthenticated, setIsAuthenticated] = useState(false);
-   const [secretaries, setSecretaries] = useState<any[]>([]);
-   const [secretary, setSecretary] = useState();
+   const [secretaries, setSecretaries] = useState<ISecretary[]>([]);
+   const [secretary, setSecretary] = useState<ISecretary>();
    const [isLoading, setIsLoading] = useState(true);
 
    const navigate = useNavigate();
@@ -52,9 +60,13 @@ const SecretaryProvider = ({ children }: { children: ReactElement }) => {
    }, [isLoading]);
 
    useEffect(() => {
+      if (!secretary) return;
+
       const getSecretaries = async () => {
          try {
-            const response = await api.get("/secretario");
+            const response = await api.get(
+               `/secretario/listarSecretarios/${secretary.id}`
+            );
             setSecretaries(response.data);
          } catch (error: any) {
             console.log(error.response);
@@ -62,10 +74,10 @@ const SecretaryProvider = ({ children }: { children: ReactElement }) => {
       };
 
       getSecretaries();
-   }, []);
+   }, [secretary]);
 
-   const updateSecretaries = (secretarie: any) => {
-      setSecretaries(secretarie);
+   const updateSecretaries = (secretaries: ISecretary[]) => {
+      setSecretaries(secretaries);
    };
 
    const handleLogin = async (
