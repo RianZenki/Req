@@ -1,4 +1,11 @@
-import { CaretDown, ChartBar, House, SignOut, UserList } from "phosphor-react";
+import {
+   CaretDown,
+   ChartBar,
+   House,
+   SignOut,
+   User,
+   UserList,
+} from "phosphor-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useSecretaryContext } from "@/contexts/SecretaryContext";
 import { NavLink, Outlet } from "react-router-dom";
@@ -73,6 +80,22 @@ export const SideHeader = () => {
                         </li>
                      </>
                   )}
+
+                  <li>
+                     <NavLink
+                        to="/secretario/perfil"
+                        className={({ isActive }) =>
+                           `flex w-full text-white items-center gap-3 px-4 py-3 ${
+                              isActive
+                                 ? "bg-brandColor-700"
+                                 : "bg-brandColor-500"
+                           }`
+                        }
+                     >
+                        <User size={24} />
+                        Perfil
+                     </NavLink>
+                  </li>
                </ul>
             </nav>
 

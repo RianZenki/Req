@@ -1,11 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DeleteSecretaryModal } from "./components/DeleteSecretaryModal";
 import { UpdateSecretaryModal } from "./components/UpdateSecretaryModal";
-
-const roleFormatted = {
-   SECRETARIO: "Secretário",
-   SECRETARIO_GERAL: "Secretário geral",
-};
+import { roleFormatted } from "@/utils/roleFormatted";
 
 export const columns: ColumnDef<any>[] = [
    {

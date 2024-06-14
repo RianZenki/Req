@@ -1,4 +1,5 @@
 import api from "@/services/api";
+import { ISecretary } from "@/utils/secretary-types";
 import {
    ReactElement,
    createContext,
@@ -11,8 +12,8 @@ import { toast } from "react-toastify";
 
 interface ISecretaryContext {
    isAuthenticated: boolean;
-   secretaries: any[];
-   secretary: any;
+   secretaries: ISecretary[];
+   secretary: ISecretary | undefined;
    isLoading: boolean;
    updateSecretaries: (secretarie: any) => void;
    handleLogin: (
@@ -26,18 +27,10 @@ const SecretaryContext = createContext<ISecretaryContext>(
    {} as ISecretaryContext
 );
 
-interface ISecretary {
-   id: string;
-   numeroMatricula: string;
-   nome: string;
-   email: string;
-   cargo: string;
-}
-
 const SecretaryProvider = ({ children }: { children: ReactElement }) => {
    const [isAuthenticated, setIsAuthenticated] = useState(false);
    const [secretaries, setSecretaries] = useState<ISecretary[]>([]);
-   const [secretary, setSecretary] = useState<ISecretary>();
+   const [secretary, setSecretary] = useState<ISecretary | undefined>();
    const [isLoading, setIsLoading] = useState(true);
 
    const navigate = useNavigate();
@@ -60,13 +53,9 @@ const SecretaryProvider = ({ children }: { children: ReactElement }) => {
    }, [isLoading]);
 
    useEffect(() => {
-      if (!secretary) return;
-
       const getSecretaries = async () => {
          try {
-            const response = await api.get(
-               `/secretario/listarSecretarios/${secretary.id}`
-            );
+            const response = await api.get(`/secretario/`);
             setSecretaries(response.data);
          } catch (error: any) {
             console.log(error.response);
@@ -74,7 +63,7 @@ const SecretaryProvider = ({ children }: { children: ReactElement }) => {
       };
 
       getSecretaries();
-   }, [secretary]);
+   }, []);
 
    const updateSecretaries = (secretaries: ISecretary[]) => {
       setSecretaries(secretaries);

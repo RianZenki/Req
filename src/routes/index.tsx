@@ -17,6 +17,7 @@ import { Home as SecretaryHome } from "@/screens/Secretary/Home";
 import { Secretaries } from "@/screens/Secretary/Secretaries";
 import { Request as SecretaryRequest } from "@/screens/Secretary/Request";
 import { NewPassword } from "@/screens/NewPassword";
+import { Profile as SecretaryProfile } from "@/screens/Secretary/Profile";
 
 export const router = createBrowserRouter([
    {
@@ -93,6 +94,10 @@ export const router = createBrowserRouter([
                         path: "/secretario/solicitacao/:id",
                         element: <SecretaryRequest />,
                      },
+                     {
+                        path: "/secretario/perfil",
+                        element: <SecretaryProfile />
+                     }
                   ],
                },
             ],

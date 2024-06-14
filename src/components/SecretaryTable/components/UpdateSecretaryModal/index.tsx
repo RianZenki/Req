@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useSecretaryContext } from "@/contexts/SecretaryContext";
 import { Button } from "@/components/Button";
+import { ISecretary } from "@/utils/secretary-types";
 
 const createRegisterFormSchema = z.object({
    name: z.string().min(1, "* Campo obrigatório"),
@@ -44,18 +45,6 @@ const createRegisterFormSchema = z.object({
 });
 
 type createRegisterData = z.infer<typeof createRegisterFormSchema>;
-
-interface ISecretary {
-   nome: string;
-   email: string;
-   numeroMatricula: string;
-   cargo: string;
-   tipo_pedido_secretario: {
-      tipo_pedido: {
-         tipo: string;
-      };
-   }[];
-}
 
 export const UpdateSecretaryModal = ({ id }: { id: string }) => {
    const [isModalOpen, setIsModalOpen] = useState(false);
@@ -106,7 +95,7 @@ export const UpdateSecretaryModal = ({ id }: { id: string }) => {
 
    useEffect(() => {
       if (secretary) {
-         const requestTypes = secretary.tipo_pedido_secretario.map(
+         const requestTypes = secretary.tipo_pedido_secretario!.map(
             (type) => type.tipo_pedido.tipo
          );
 
@@ -227,7 +216,7 @@ export const UpdateSecretaryModal = ({ id }: { id: string }) => {
                         ))}
                         <TextInput.ErrorMessage
                            field="requestTypes"
-                           className="-top-9"
+                           className="top-9"
                         />
                      </div>
                   </div>

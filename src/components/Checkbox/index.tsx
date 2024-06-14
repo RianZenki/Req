@@ -5,9 +5,10 @@ import { useFormContext } from "react-hook-form";
 interface CheckboxProps extends HTMLAttributes<HTMLInputElement> {
    label: string;
    name: string;
+   disabled?: boolean
 }
 
-export const Checkbox = ({ label, name, ...rest }: CheckboxProps) => {
+export const Checkbox = ({ label, name, disabled, ...rest }: CheckboxProps) => {
    const { register } = useFormContext();
 
    return (
@@ -15,12 +16,13 @@ export const Checkbox = ({ label, name, ...rest }: CheckboxProps) => {
          <input
             type="checkbox"
             {...rest}
+            disabled={disabled}
             id={label}
             value={label}
-            className="appearance-none relative peer size-4 rounded border bg-gray-100 border-gray-300 checked:bg-brandColor-500 checked:border-none cursor-pointer"
+            className="appearance-none relative peer size-4 rounded border bg-gray-100 border-gray-300 checked:bg-brandColor-500 checked:border-none cursor-pointer disabled:cursor-auto"
             {...register(name)}
          />
-         <label htmlFor={label} className="cursor-pointer text-base">
+         <label htmlFor={label} className={`text-base ${disabled ? "cursor-default text-gray-500" : "cursor-pointer"}`}>
             {label}
          </label>
          <Check
